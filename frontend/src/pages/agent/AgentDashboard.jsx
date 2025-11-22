@@ -15,7 +15,7 @@ const AgentDashboard = () => {
                 const config = {
                     headers: { Authorization: `Bearer ${user.token}` },
                 };
-                const { data } = await axios.get('http://localhost:5000/api/requirements', config);
+                const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/requirements`, config);
                 setRequirements(data);
             } catch (error) {
                 console.error('Error fetching requirements:', error);
@@ -32,7 +32,7 @@ const AgentDashboard = () => {
 
         try {
             const config = { headers: { Authorization: `Bearer ${user.token}` } };
-            await axios.delete(`http://localhost:5000/api/requirements/${requirementId}`, config);
+            await axios.delete(`${import.meta.env.VITE_API_URL}/api/requirements/${requirementId}`, config);
 
             // Remove from local state
             setRequirements(requirements.filter(r => r._id !== requirementId));
@@ -81,9 +81,9 @@ const AgentDashboard = () => {
                                     <td className="p-6 text-gray-300">₹{req.budget.toLocaleString()}</td>
                                     <td className="p-6">
                                         <span className={`px-3 py-1 rounded-full text-xs font-medium border ${req.status === 'NEW' ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' :
-                                                req.status === 'QUOTES_READY' ? 'bg-purple-500/20 text-purple-400 border-purple-500/30' :
-                                                    req.status === 'IN_PROGRESS' ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30' :
-                                                        'bg-gray-500/20 text-gray-400 border-gray-500/30'
+                                            req.status === 'QUOTES_READY' ? 'bg-purple-500/20 text-purple-400 border-purple-500/30' :
+                                                req.status === 'IN_PROGRESS' ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30' :
+                                                    'bg-gray-500/20 text-gray-400 border-gray-500/30'
                                             }`}>
                                             {req.status.replace('_', ' ')}
                                         </span>

@@ -40,7 +40,7 @@ const PlanJourney = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            await axios.post('http://localhost:5000/api/requirements', formData);
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/requirements`, formData);
             setLoading(false);
             navigate('/thank-you');
         } catch (error) {

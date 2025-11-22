@@ -21,7 +21,7 @@ const PartnerDashboard = () => {
         const fetchProfile = async () => {
             try {
                 const config = { headers: { Authorization: `Bearer ${user.token}` } };
-                const { data } = await axios.get('http://localhost:5000/api/partners/me', config);
+                const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/partners/me`, config);
                 if (data) setProfile(data);
             } catch (error) {
                 console.error('Error fetching profile:', error);
@@ -48,7 +48,7 @@ const PartnerDashboard = () => {
         setSaving(true);
         try {
             const config = { headers: { Authorization: `Bearer ${user.token}` } };
-            await axios.post('http://localhost:5000/api/partners/profile', profile, config);
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/partners/profile`, profile, config);
             alert('Profile updated successfully!');
         } catch (error) {
             console.error('Error updating profile:', error);

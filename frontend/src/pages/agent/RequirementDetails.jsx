@@ -32,7 +32,7 @@ const RequirementDetails = () => {
                 const config = { headers: { Authorization: `Bearer ${user.token} ` } };
 
                 // Fetch Requirement
-                const reqRes = await axios.get(`http://localhost:5000/api/requirements/${id}`, config);
+                const reqRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/requirements/${id}`, config);
                 setRequirement(reqRes.data);
 
                 // Auto-fill filters
@@ -68,7 +68,7 @@ const RequirementDetails = () => {
 
     const fetchPartners = async (filterParams, config) => {
         try {
-            const res = await axios.post('http://localhost:5000/api/partners/filter', filterParams, config);
+            const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/partners/filter`, filterParams, config);
             setPartners(res.data);
         } catch (error) {
             console.error('Error filtering partners:', error);
@@ -94,7 +94,7 @@ const RequirementDetails = () => {
         setGenerating(true);
         try {
             const config = { headers: { Authorization: `Bearer ${user.token}` } };
-            await axios.post('http://localhost:5000/api/quotes/generate', {
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/quotes/generate`, {
                 requirementId: id,
                 partnerIds: selectedPartners,
             }, config);

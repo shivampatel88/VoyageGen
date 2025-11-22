@@ -15,7 +15,7 @@ const QuotesList = () => {
         const fetchQuotes = async () => {
             try {
                 const config = { headers: { Authorization: `Bearer ${user.token}` } };
-                const res = await axios.get('http://localhost:5000/api/quotes', config);
+                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/quotes`, config);
                 setQuotes(res.data);
             } catch (error) {
                 console.error('Error fetching quotes:', error);
@@ -550,7 +550,7 @@ const QuotesList = () => {
 
         try {
             const config = { headers: { Authorization: `Bearer ${user.token}` } };
-            await axios.delete(`http://localhost:5000/api/quotes/${quoteId}`, config);
+            await axios.delete(`${import.meta.env.VITE_API_URL}/api/quotes/${quoteId}`, config);
 
             // Remove from local state
             setQuotes(quotes.filter(q => q._id !== quoteId));

@@ -16,7 +16,7 @@ const QuoteEditor = () => {
         const fetchQuote = async () => {
             try {
                 const config = { headers: { Authorization: `Bearer ${user.token}` } };
-                const res = await axios.get(`http://localhost:5000/api/quotes/${id}`, config);
+                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/quotes/${id}`, config);
                 setQuote(res.data);
             } catch (error) {
                 console.error('Error fetching quote:', error);
@@ -32,7 +32,7 @@ const QuoteEditor = () => {
         setSaving(true);
         try {
             const config = { headers: { Authorization: `Bearer ${user.token}` } };
-            await axios.put(`http://localhost:5000/api/quotes/${id}`, quote, config);
+            await axios.put(`${import.meta.env.VITE_API_URL}/api/quotes/${id}`, quote, config);
             alert('Quote saved successfully!');
         } catch (error) {
             console.error('Error saving quote:', error);

@@ -54,7 +54,7 @@ const RequirementForm = ({ isOpen, onClose }) => {
         setLoading(true);
         try {
             // In a real app, this URL would be in .env
-            await axios.post('http://localhost:5000/api/requirements', formData);
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/requirements`, formData);
             setLoading(false);
             onClose();
             // Small delay to ensure state update propagates before navigation
