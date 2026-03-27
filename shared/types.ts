@@ -94,8 +94,10 @@ export interface Quote {
     title: string;
     sections: QuoteSection;
     costs: QuoteCosts;
-    status: 'DRAFT' | 'READY' | 'SENT_TO_USER';
-    itinerary?: ItineraryDay[];
+    // Merged: Expanded statuses from partner branch + itinerary from develop
+    status: 'DRAFT' | 'READY' | 'SENT_TO_USER' | 'ACCEPTED' | 'DECLINED';
+    shareToken?: string; // For the partner-ai-search public link feature
+    itinerary?: ItineraryDay[]; // For the develop AI itinerary feature
     createdAt?: string | Date;
     updatedAt?: string | Date;
 }
