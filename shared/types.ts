@@ -43,6 +43,17 @@ export interface Requirement {
     updatedAt?: string | Date;
 }
 
+// Itinerary Types
+export interface ItineraryDay {
+    day: number;
+    title: string;
+    highlight?: string;
+    activities: string[];
+    accommodation: string;
+    meals: string[];
+    tips?: string;
+}
+
 // Quote Types
 export interface QuoteSection {
     hotels: Array<{
@@ -83,8 +94,10 @@ export interface Quote {
     title: string;
     sections: QuoteSection;
     costs: QuoteCosts;
+    // Merged: Expanded statuses from partner branch + itinerary from develop
     status: 'DRAFT' | 'READY' | 'SENT_TO_USER' | 'ACCEPTED' | 'DECLINED';
-    shareToken?: string;
+    shareToken?: string; // For the partner-ai-search public link feature
+    itinerary?: ItineraryDay[]; // For the develop AI itinerary feature
     createdAt?: string | Date;
     updatedAt?: string | Date;
 }

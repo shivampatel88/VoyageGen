@@ -9,6 +9,7 @@ import {
     sendQuoteEmailController,
     getPublicQuote,
     updatePublicQuoteStatus
+    generateItinerary,
 } from '../controllers/quoteController';
 import { protect, authorize } from '../middleware/authMiddleware';
 
@@ -19,6 +20,7 @@ router.get('/public/:token', getPublicQuote);
 router.post('/public/:token/status', updatePublicQuoteStatus);
 
 router.post('/generate', protect, authorize('AGENT', 'ADMIN'), generateQuotes);
+router.post('/:id/itinerary', protect, authorize('AGENT', 'ADMIN'), generateItinerary);
 router.get('/', protect, authorize('AGENT', 'ADMIN'), getQuotes);
 router.get('/requirement/:id', protect, authorize('AGENT', 'ADMIN'), getQuotesByRequirement);
 

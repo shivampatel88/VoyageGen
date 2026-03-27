@@ -6,6 +6,7 @@ import PartnerProfile from '../models/PartnerProfile';
 import { QuoteSection } from '../../shared/types';
 import { handleError } from '../utils/errorHandler';
 import { sendQuoteEmail } from '../utils/emailUtils';
+import { generateItinerary as groqGenerateItinerary } from '../utils/groqUtils';
 
 // @desc    Auto-generate quotes for selected partners
 // @route   POST /api/quotes/generate
@@ -272,16 +273,66 @@ export const updatePublicQuoteStatus = async (req: Request, res: Response) => {
         }
 
         const quote = await Quote.findOne({ shareToken: req.params.token });
+        
         if (!quote) {
             res.status(404).json({ message: 'Quote not found' });
             return;
         }
 
-        quote.status = status;
+        quote.status = status as any;
         await quote.save();
 
         res.json({ message: `Quote has been ${status.toLowerCase()}`, quote });
     } catch (error: unknown) {
         handleError(res, error, 'Error updating quote status');
+    }
+};
+
+// @desc    Generate AI day-by-day itinerary for a quote
+// @route   POST /api/quotes/:id/itinerary
+// @access  Private (Agent)
+export const generateItinerary = async (req: Request, res: Response) => {
+    try {
+        // Populate both requirement and partner data
+        const quote = await Quote.findById(req.params.id)
+            .populate('requirementId')
+            .populate({
+                path: 'partnerId',
+                select: 'companyName sightSeeing',
+            });
+
+        if (!quote) {
+            res.status(404).json({ message: 'Quote not found' });
+            return;
+        }
+
+        const req_data = quote.requirementId as any;
+        const partner_data = quote.partnerId as any;
+
+        // Extract all relevant data for the prompt
+        const destination = req_data?.destination || 'the destination';
+        const duration = req_data?.duration || 5;
+        const tripType = req_data?.tripType || 'leisure';
+        const adults = req_data?.pax?.adults || 2;
+        const children = req_data?.pax?.children || 0;
+        const description = req_data?.description || '';
+        const hotelName = (quote.sections?.hotels?.[0] as any)?.name || partner_data?.companyName || 'the hotel';
+        const sightseeing: string[] = partner_data?.sightSeeing || [];
+        const activities: string[] = (quote.sections?.activities || []).map((a: any) => a.name);
+
+        // Call Groq LLM
+        const itinerary = await groqGenerateItinerary(
+            destination, duration, tripType,
+            adults, children, hotelName,
+            sightseeing, activities, description
+        );
+
+        // Persist to the quote document
+        (quote as any).itinerary = itinerary;
+        await quote.save();
+
+        res.json({ itinerary });
+    } catch (error: unknown) {
+        handleError(res, error, 'Itinerary generation error');
     }
 };
