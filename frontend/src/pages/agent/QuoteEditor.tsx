@@ -7,7 +7,6 @@ import {
     FaUser, FaMapMarkerAlt, FaCalendarAlt, FaSpinner, FaEnvelope, FaMap, FaFilePdf
 } from 'react-icons/fa';
 import { motion } from 'framer-motion';
-import AgentHeader from '../../components/AgentHeader';
 import ItineraryTimeline from '../../components/ItineraryTimeline';
 import { ItineraryDay, QuoteCosts, QuoteSection, Requirement } from '../../types';
 import { generateItineraryPDF } from '../../utils/generatePDF';
@@ -187,7 +186,7 @@ const QuoteEditor: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-black text-white font-sans selection:bg-emerald-500 selection:text-white">
-            <AgentHeader />
+
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">

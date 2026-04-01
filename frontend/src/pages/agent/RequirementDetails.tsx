@@ -4,7 +4,6 @@ import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
 import { FaFilter, FaSearch, FaCheckCircle, FaSpinner, FaMapMarkerAlt, FaStar, FaEye, FaTimes, FaCalendarAlt, FaUserFriends, FaMoneyBillWave } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
-import AgentHeader from '../../components/AgentHeader';
 
 const RequirementDetails: React.FC = () => {
     const { id } = useParams();
@@ -122,7 +121,7 @@ const RequirementDetails: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-black text-white font-sans selection:bg-emerald-500 selection:text-white">
-            <AgentHeader />
+
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 {/* Header Section */}

@@ -98,6 +98,7 @@ export interface Quote {
     status: 'DRAFT' | 'READY' | 'SENT_TO_USER' | 'ACCEPTED' | 'DECLINED';
     shareToken?: string; // For the partner-ai-search public link feature
     itinerary?: ItineraryDay[]; // For the develop AI itinerary feature
+    viewedAt?: string | Date;
     createdAt?: string | Date;
     updatedAt?: string | Date;
 }
