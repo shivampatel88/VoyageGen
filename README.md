@@ -23,39 +23,39 @@ In the travel industry, creating a customized trip quotation is a labor-intensiv
 
 ### Real-World Use Case
 
-A boutique travel agency in India uses VoyageGen to handle inquiries. When a honeymoon couple requests a Maldives trip, the agent searches for matching luxury resorts using a natural language query like *"romantic overwater villa with private pool"*. The system returns semantically ranked partners, auto-generates a costed quote, creates a 5-day itinerary with LLM, and emails a branded link to the couple — all within minutes instead of hours.
+A boutique travel agency in India uses VoyageGen to handle inquiries. When a honeymoon couple requests a Maldives trip, the agent searches for matching luxury resorts using a natural language query like _"romantic overwater villa with private pool"_. The system returns semantically ranked partners, auto-generates a costed quote, creates a 5-day itinerary with LLM, and emails a branded link to the couple — all within minutes instead of hours.
 
 ---
 
 ## 2. Key Features
 
-| Feature | Status | Description |
-|---------|--------|-------------|
-| Multi-role authentication (Traveler, Agent, Partner, Admin) | [CONFIRMED] | JWT-based auth with role-based route protection |
-| Public requirement submission form | [CONFIRMED] | Travelers submit trip preferences without authentication |
-| Agent dashboard with requirement management | [CONFIRMED] | View, filter, and manage incoming travel requirements |
-| AI-powered partner semantic search | [CONFIRMED] | Gemini embedding + cosine similarity matching on partner descriptions |
-| Traditional partner filtering | [CONFIRMED] | Filter by destination, budget range, type, hotel star rating |
-| Automated quote generation from partner profiles | [CONFIRMED] | Builds itemized hotel/transport/activity cost sections automatically |
-| Quote editor with cost management | [CONFIRMED] | Edit sections, costs, margins, and status (DRAFT → READY → SENT) |
-| AI itinerary generation via Groq LLM | [CONFIRMED] | Llama 4 Scout produces structured JSON day-by-day itineraries |
-| Immersive itinerary timeline UI with Pexels images | [CONFIRMED] | Real-time image fetching per day, skeleton loading, color-coded cards |
-| Programmatic PDF export (jsPDF) | [CONFIRMED] | Multi-page branded PDF with cover page, hero images, and styled content |
-| Public quote sharing via unique tokens | [CONFIRMED] | Cryptographically generated UUIDs for shareable quote URLs |
-| Email delivery via Web3Forms | [CONFIRMED] | Sends branded quote links to travelers via Web3Forms API |
-| Quote accept/decline by traveler (public) | [CONFIRMED] | Public endpoint lets travelers accept or decline without login |
-| Partner profile management | [CONFIRMED] | Partners manage company info, destinations, specializations, budget ranges |
-| Partner inventory system (Hotels, Transport, Activities) | [CONFIRMED] | Three separate Mongoose models for partner inventory items |
-| 3D animated landing page with Vanta.js clouds | [CONFIRMED] | Three.js-powered cloud animation on the hero section |
-| GSAP scroll-driven animations | [CONFIRMED] | ScrollTrigger-powered gallery, service cards, and destination strips |
-| Lenis smooth scroll | [CONFIRMED] | Custom easing for the landing page (disabled in portals) |
-| Framer Motion page transitions | [CONFIRMED] | AnimatePresence-wrapped route transitions |
-| Comprehensive seed data (40+ luxury partners) | [CONFIRMED] | 20 Indian + 20 international partner profiles with embeddings |
-| Responsive design with mobile support | [CONFIRMED] | Full mobile menu, responsive grids, and touch-friendly forms |
-| Partner dashboard | [PARTIAL] | Basic layout exists but minimal content |
-| Admin role | [PARTIAL] | Role exists in schema and auth, but no admin-specific UI |
-| Rate limiting / request throttling | [PLANNED] | Not implemented; no middleware observed |
-| Password reset flow | [PLANNED] | Not implemented |
+| Feature                                                     | Status      | Description                                                                |
+| ----------------------------------------------------------- | ----------- | -------------------------------------------------------------------------- |
+| Multi-role authentication (Traveler, Agent, Partner, Admin) | [CONFIRMED] | JWT-based auth with role-based route protection                            |
+| Public requirement submission form                          | [CONFIRMED] | Travelers submit trip preferences without authentication                   |
+| Agent dashboard with requirement management                 | [CONFIRMED] | View, filter, and manage incoming travel requirements                      |
+| AI-powered partner semantic search                          | [CONFIRMED] | Gemini embedding + cosine similarity matching on partner descriptions      |
+| Traditional partner filtering                               | [CONFIRMED] | Filter by destination, budget range, type, hotel star rating               |
+| Automated quote generation from partner profiles            | [CONFIRMED] | Builds itemized hotel/transport/activity cost sections automatically       |
+| Quote editor with cost management                           | [CONFIRMED] | Edit sections, costs, margins, and status (DRAFT → READY → SENT)           |
+| AI itinerary generation via Groq LLM                        | [CONFIRMED] | Llama 4 Scout produces structured JSON day-by-day itineraries              |
+| Immersive itinerary timeline UI with Pexels images          | [CONFIRMED] | Real-time image fetching per day, skeleton loading, color-coded cards      |
+| Programmatic PDF export (jsPDF)                             | [CONFIRMED] | Multi-page branded PDF with cover page, hero images, and styled content    |
+| Public quote sharing via unique tokens                      | [CONFIRMED] | Cryptographically generated UUIDs for shareable quote URLs                 |
+| Email delivery via Web3Forms                                | [CONFIRMED] | Sends branded quote links to travelers via Web3Forms API                   |
+| Quote accept/decline by traveler (public)                   | [CONFIRMED] | Public endpoint lets travelers accept or decline without login             |
+| Partner profile management                                  | [CONFIRMED] | Partners manage company info, destinations, specializations, budget ranges |
+| Partner inventory system (Hotels, Transport, Activities)    | [CONFIRMED] | Three separate Mongoose models for partner inventory items                 |
+| 3D animated landing page with Vanta.js clouds               | [CONFIRMED] | Three.js-powered cloud animation on the hero section                       |
+| GSAP scroll-driven animations                               | [CONFIRMED] | ScrollTrigger-powered gallery, service cards, and destination strips       |
+| Lenis smooth scroll                                         | [CONFIRMED] | Custom easing for the landing page (disabled in portals)                   |
+| Framer Motion page transitions                              | [CONFIRMED] | AnimatePresence-wrapped route transitions                                  |
+| Comprehensive seed data (40+ luxury partners)               | [CONFIRMED] | 20 Indian + 20 international partner profiles with embeddings              |
+| Responsive design with mobile support                       | [CONFIRMED] | Full mobile menu, responsive grids, and touch-friendly forms               |
+| Partner dashboard                                           | [PARTIAL]   | Basic layout exists but minimal content                                    |
+| Admin role                                                  | [PARTIAL]   | Role exists in schema and auth, but no admin-specific UI                   |
+| Rate limiting / request throttling                          | [PLANNED]   | Not implemented; no middleware observed                                    |
+| Password reset flow                                         | [PLANNED]   | Not implemented                                                            |
 
 ---
 
@@ -63,53 +63,53 @@ A boutique travel agency in India uses VoyageGen to handle inquiries. When a hon
 
 ### Frontend
 
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| React | 19.2.0 | UI framework |
-| TypeScript | 5.9.3 | Type safety |
-| Vite | 7.2.4 | Build tool & dev server |
-| TailwindCSS | 4.1.17 | Utility-first CSS framework |
-| Framer Motion | 12.23.24 | Page transitions & micro-animations |
-| GSAP | 3.13.0 | Scroll-driven animations (ScrollTrigger) |
-| Three.js | 0.134.0 | 3D rendering (used by Vanta) |
-| Vanta.js | 0.5.24 | Animated cloud background |
-| Lenis | 1.3.15 | Smooth scroll library |
-| Axios | 1.13.2 | HTTP client |
-| React Router DOM | 7.9.6 | Client-side routing |
-| React Icons | 5.5.0 | Icon library (Font Awesome set) |
-| jsPDF | 4.2.1 | Programmatic PDF generation |
-| html2canvas | 1.4.1 | HTML-to-canvas rendering (installed, not actively used) |
+| Technology       | Version  | Purpose                                                 |
+| ---------------- | -------- | ------------------------------------------------------- |
+| React            | 19.2.0   | UI framework                                            |
+| TypeScript       | 5.9.3    | Type safety                                             |
+| Vite             | 7.2.4    | Build tool & dev server                                 |
+| TailwindCSS      | 4.1.17   | Utility-first CSS framework                             |
+| Framer Motion    | 12.23.24 | Page transitions & micro-animations                     |
+| GSAP             | 3.13.0   | Scroll-driven animations (ScrollTrigger)                |
+| Three.js         | 0.134.0  | 3D rendering (used by Vanta)                            |
+| Vanta.js         | 0.5.24   | Animated cloud background                               |
+| Lenis            | 1.3.15   | Smooth scroll library                                   |
+| Axios            | 1.13.2   | HTTP client                                             |
+| React Router DOM | 7.9.6    | Client-side routing                                     |
+| React Icons      | 5.5.0    | Icon library (Font Awesome set)                         |
+| jsPDF            | 4.2.1    | Programmatic PDF generation                             |
+| html2canvas      | 1.4.1    | HTML-to-canvas rendering (installed, not actively used) |
 
 ### Backend
 
-| Technology | Version | Purpose |
-|------------|---------|---------|
-| Express | 5.1.0 | REST API framework |
-| TypeScript | 5.9.3 | Type safety |
-| tsx | 4.20.6 | TypeScript execution & hot-reload |
-| Mongoose | 9.0.0 | MongoDB ODM |
-| JSON Web Token | 9.0.2 | Authentication tokens |
-| bcryptjs | 3.0.3 | Password hashing |
-| @google/generative-ai | 0.24.1 | Gemini API (embeddings) |
-| groq-sdk | 1.1.2 | Groq API (Llama 4 Scout LLM) |
-| cors | 2.8.5 | Cross-origin resource sharing |
-| dotenv | 17.2.3 | Environment variable management |
+| Technology            | Version | Purpose                           |
+| --------------------- | ------- | --------------------------------- |
+| Express               | 5.1.0   | REST API framework                |
+| TypeScript            | 5.9.3   | Type safety                       |
+| tsx                   | 4.20.6  | TypeScript execution & hot-reload |
+| Mongoose              | 9.0.0   | MongoDB ODM                       |
+| JSON Web Token        | 9.0.2   | Authentication tokens             |
+| bcryptjs              | 3.0.3   | Password hashing                  |
+| @google/generative-ai | 0.24.1  | Gemini API (embeddings)           |
+| groq-sdk              | 1.1.2   | Groq API (Llama 4 Scout LLM)      |
+| cors                  | 2.8.5   | Cross-origin resource sharing     |
+| dotenv                | 17.2.3  | Environment variable management   |
 
 ### Database
 
-| Technology | Purpose |
-|------------|---------|
-| MongoDB Atlas | Cloud-hosted NoSQL database |
-| Mongoose ODM | Schema definitions, validation, population |
+| Technology    | Purpose                                    |
+| ------------- | ------------------------------------------ |
+| MongoDB Atlas | Cloud-hosted NoSQL database                |
+| Mongoose ODM  | Schema definitions, validation, population |
 
 ### External APIs
 
-| Service | Purpose |
-|---------|---------|
-| Google Gemini (`gemini-embedding-001`) | Text embedding generation for semantic search |
-| Groq (`meta-llama/llama-4-scout-17b-16e-instruct`) | LLM-based itinerary generation |
-| Pexels API | Destination/activity photography for itinerary UI and PDFs |
-| Web3Forms | Transactional email delivery |
+| Service                                            | Purpose                                                    |
+| -------------------------------------------------- | ---------------------------------------------------------- |
+| Google Gemini (`gemini-embedding-001`)             | Text embedding generation for semantic search              |
+| Groq (`meta-llama/llama-4-scout-17b-16e-instruct`) | LLM-based itinerary generation                             |
+| Pexels API                                         | Destination/activity photography for itinerary UI and PDFs |
+| Web3Forms                                          | Transactional email delivery                               |
 
 ---
 
@@ -283,44 +283,44 @@ VoyageGen/
 
 ### Authentication
 
-| Method | Endpoint | Purpose | Auth Required |
-|--------|----------|---------|---------------|
-| POST | `/api/auth/signup` | Register new user (Agent/Partner/User) | No |
-| POST | `/api/auth/login` | Authenticate and receive JWT | No |
+| Method | Endpoint           | Purpose                                | Auth Required |
+| ------ | ------------------ | -------------------------------------- | ------------- |
+| POST   | `/api/auth/signup` | Register new user (Agent/Partner/User) | No            |
+| POST   | `/api/auth/login`  | Authenticate and receive JWT           | No            |
 
 ### Requirements
 
-| Method | Endpoint | Purpose | Auth Required |
-|--------|----------|---------|---------------|
-| POST | `/api/requirements` | Submit a new travel requirement | No (public) |
-| GET | `/api/requirements` | List all requirements | Yes (Agent, Admin) |
-| GET | `/api/requirements/:id` | Get requirement by ID | Yes (User, Agent, Admin) |
-| PUT | `/api/requirements/:id` | Update requirement status | Yes (Agent, Admin) |
-| DELETE | `/api/requirements/:id` | Delete a requirement | Yes (Agent, Admin) |
+| Method | Endpoint                | Purpose                         | Auth Required            |
+| ------ | ----------------------- | ------------------------------- | ------------------------ |
+| POST   | `/api/requirements`     | Submit a new travel requirement | No (public)              |
+| GET    | `/api/requirements`     | List all requirements           | Yes (Agent, Admin)       |
+| GET    | `/api/requirements/:id` | Get requirement by ID           | Yes (User, Agent, Admin) |
+| PUT    | `/api/requirements/:id` | Update requirement status       | Yes (Agent, Admin)       |
+| DELETE | `/api/requirements/:id` | Delete a requirement            | Yes (Agent, Admin)       |
 
 ### Quotes
 
-| Method | Endpoint | Purpose | Auth Required |
-|--------|----------|---------|---------------|
-| POST | `/api/quotes/generate` | Auto-generate quotes for selected partners | Yes (Agent, Admin) |
-| GET | `/api/quotes` | List all quotes | Yes (Agent, Admin) |
-| GET | `/api/quotes/requirement/:id` | Get quotes for a specific requirement | Yes (Agent, Admin) |
-| GET | `/api/quotes/:id` | Get quote by ID | Yes (Agent, Admin) |
-| PUT | `/api/quotes/:id` | Update quote (sections, costs, status) | Yes (Agent, Admin) |
-| DELETE | `/api/quotes/:id` | Delete a quote | Yes (Agent, Admin) |
-| POST | `/api/quotes/:id/send` | Send quote email to traveler | Yes (Agent, Admin) |
-| POST | `/api/quotes/:id/itinerary` | Generate AI day-by-day itinerary | Yes (Agent, Admin) |
-| GET | `/api/quotes/public/:token` | View quote via share token | No (public) |
-| POST | `/api/quotes/public/:token/status` | Accept or decline quote | No (public) |
+| Method | Endpoint                           | Purpose                                    | Auth Required      |
+| ------ | ---------------------------------- | ------------------------------------------ | ------------------ |
+| POST   | `/api/quotes/generate`             | Auto-generate quotes for selected partners | Yes (Agent, Admin) |
+| GET    | `/api/quotes`                      | List all quotes                            | Yes (Agent, Admin) |
+| GET    | `/api/quotes/requirement/:id`      | Get quotes for a specific requirement      | Yes (Agent, Admin) |
+| GET    | `/api/quotes/:id`                  | Get quote by ID                            | Yes (Agent, Admin) |
+| PUT    | `/api/quotes/:id`                  | Update quote (sections, costs, status)     | Yes (Agent, Admin) |
+| DELETE | `/api/quotes/:id`                  | Delete a quote                             | Yes (Agent, Admin) |
+| POST   | `/api/quotes/:id/send`             | Send quote email to traveler               | Yes (Agent, Admin) |
+| POST   | `/api/quotes/:id/itinerary`        | Generate AI day-by-day itinerary           | Yes (Agent, Admin) |
+| GET    | `/api/quotes/public/:token`        | View quote via share token                 | No (public)        |
+| POST   | `/api/quotes/public/:token/status` | Accept or decline quote                    | No (public)        |
 
 ### Partners
 
-| Method | Endpoint | Purpose | Auth Required |
-|--------|----------|---------|---------------|
-| GET | `/api/partners/me` | Get current partner's profile | Yes (Partner) |
-| POST | `/api/partners/profile` | Create/update partner profile | Yes (Partner) |
-| POST | `/api/partners/inventory/:type` | Add inventory item (hotel/transport/activity) | Yes (Partner) |
-| POST | `/api/partners/filter` | Search/filter partners (with optional semantic search) | Yes (Agent, Admin) |
+| Method | Endpoint                        | Purpose                                                | Auth Required      |
+| ------ | ------------------------------- | ------------------------------------------------------ | ------------------ |
+| GET    | `/api/partners/me`              | Get current partner's profile                          | Yes (Partner)      |
+| POST   | `/api/partners/profile`         | Create/update partner profile                          | Yes (Partner)      |
+| POST   | `/api/partners/inventory/:type` | Add inventory item (hotel/transport/activity)          | Yes (Partner)      |
+| POST   | `/api/partners/filter`          | Search/filter partners (with optional semantic search) | Yes (Agent, Admin) |
 
 ### Data Flow: Quote Generation Endpoint
 
@@ -347,74 +347,79 @@ POST /api/quotes/generate { requirementId, partnerIds[] }
 ### Collections & Fields
 
 #### `users`
-| Field | Type | Constraints | Description |
-|-------|------|------------|-------------|
-| `name` | String | Required | User's full name |
-| `email` | String | Required, Unique | Login identifier |
-| `password` | String | Required | bcrypt-hashed (salt rounds: 10) |
-| `role` | String | Enum: AGENT, PARTNER, ADMIN, USER | Authorization role |
-| `companyName` | String | Optional | For Partner accounts |
-| `destinations` | [String] | Optional | For Partner accounts |
-| `createdAt` | Date | Auto | Mongoose timestamps |
-| `updatedAt` | Date | Auto | Mongoose timestamps |
+
+| Field          | Type     | Constraints                       | Description                     |
+| -------------- | -------- | --------------------------------- | ------------------------------- |
+| `name`         | String   | Required                          | User's full name                |
+| `email`        | String   | Required, Unique                  | Login identifier                |
+| `password`     | String   | Required                          | bcrypt-hashed (salt rounds: 10) |
+| `role`         | String   | Enum: AGENT, PARTNER, ADMIN, USER | Authorization role              |
+| `companyName`  | String   | Optional                          | For Partner accounts            |
+| `destinations` | [String] | Optional                          | For Partner accounts            |
+| `createdAt`    | Date     | Auto                              | Mongoose timestamps             |
+| `updatedAt`    | Date     | Auto                              | Mongoose timestamps             |
 
 #### `requirements`
-| Field | Type | Constraints | Description |
-|-------|------|------------|-------------|
-| `destination` | String | Required | Target destination |
-| `tripType` | String | Required | Honeymoon, Family, Business, etc. |
-| `budget` | Number | Required | Total budget in INR |
-| `startDate` | Date | Optional | Preferred start date |
-| `duration` | Number | Optional | Trip length in days |
-| `pax.adults` | Number | Default: 1 | Number of adults |
-| `pax.children` | Number | Default: 0 | Number of children |
-| `hotelStar` | Number | Min: 1, Max: 5 | Hotel star preference |
-| `description` | String | Optional | Free-text trip description (used for semantic search) |
-| `preferences` | [String] | Optional | E.g., "balcony", "pool" |
-| `contactInfo.name` | String | Required | Traveler's name |
-| `contactInfo.email` | String | Required | Traveler's email |
-| `contactInfo.phone` | String | Required | Traveler's phone |
-| `contactInfo.whatsapp` | String | Optional | WhatsApp number |
-| `status` | String | Enum | NEW → IN_PROGRESS → QUOTES_READY → SENT_TO_USER → COMPLETED |
+
+| Field                  | Type     | Constraints    | Description                                                 |
+| ---------------------- | -------- | -------------- | ----------------------------------------------------------- |
+| `destination`          | String   | Required       | Target destination                                          |
+| `tripType`             | String   | Required       | Honeymoon, Family, Business, etc.                           |
+| `budget`               | Number   | Required       | Total budget in INR                                         |
+| `startDate`            | Date     | Optional       | Preferred start date                                        |
+| `duration`             | Number   | Optional       | Trip length in days                                         |
+| `pax.adults`           | Number   | Default: 1     | Number of adults                                            |
+| `pax.children`         | Number   | Default: 0     | Number of children                                          |
+| `hotelStar`            | Number   | Min: 1, Max: 5 | Hotel star preference                                       |
+| `description`          | String   | Optional       | Free-text trip description (used for semantic search)       |
+| `preferences`          | [String] | Optional       | E.g., "balcony", "pool"                                     |
+| `contactInfo.name`     | String   | Required       | Traveler's name                                             |
+| `contactInfo.email`    | String   | Required       | Traveler's email                                            |
+| `contactInfo.phone`    | String   | Required       | Traveler's phone                                            |
+| `contactInfo.whatsapp` | String   | Optional       | WhatsApp number                                             |
+| `status`               | String   | Enum           | NEW → IN_PROGRESS → QUOTES_READY → SENT_TO_USER → COMPLETED |
 
 #### `quotes`
-| Field | Type | Constraints | Description |
-|-------|------|------------|-------------|
-| `requirementId` | ObjectId | Ref: Requirement, Required | Linked requirement |
-| `partnerId` | ObjectId | Ref: User, Required | Source partner |
-| `agentId` | ObjectId | Ref: User, Required | Creating agent |
-| `title` | String | — | Auto-generated: "Destination Trip - TripType" |
-| `sections.hotels` | [Object] | — | Array of {name, city, roomType, nights, unitPrice, qty, total} |
-| `sections.transport` | [Object] | — | Array of {type, days, unitPrice, total} |
-| `sections.activities` | [Object] | — | Array of {name, unitPrice, qty, total} |
-| `costs.net` | Number | — | Sum of all section totals |
-| `costs.margin` | Number | — | Percentage (default 10%) |
-| `costs.final` | Number | — | net × (1 + margin/100) |
-| `costs.perHead` | Number | — | final ÷ adults |
-| `shareToken` | String | Unique, Sparse | UUID for public sharing |
-| `status` | String | Enum | DRAFT → READY → SENT_TO_USER → ACCEPTED / DECLINED |
-| `itinerary` | [Object] | — | Array of ItineraryDay (AI-generated) |
+
+| Field                 | Type     | Constraints                | Description                                                    |
+| --------------------- | -------- | -------------------------- | -------------------------------------------------------------- |
+| `requirementId`       | ObjectId | Ref: Requirement, Required | Linked requirement                                             |
+| `partnerId`           | ObjectId | Ref: User, Required        | Source partner                                                 |
+| `agentId`             | ObjectId | Ref: User, Required        | Creating agent                                                 |
+| `title`               | String   | —                          | Auto-generated: "Destination Trip - TripType"                  |
+| `sections.hotels`     | [Object] | —                          | Array of {name, city, roomType, nights, unitPrice, qty, total} |
+| `sections.transport`  | [Object] | —                          | Array of {type, days, unitPrice, total}                        |
+| `sections.activities` | [Object] | —                          | Array of {name, unitPrice, qty, total}                         |
+| `costs.net`           | Number   | —                          | Sum of all section totals                                      |
+| `costs.margin`        | Number   | —                          | Percentage (default 10%)                                       |
+| `costs.final`         | Number   | —                          | net × (1 + margin/100)                                         |
+| `costs.perHead`       | Number   | —                          | final ÷ adults                                                 |
+| `shareToken`          | String   | Unique, Sparse             | UUID for public sharing                                        |
+| `status`              | String   | Enum                       | DRAFT → READY → SENT_TO_USER → ACCEPTED / DECLINED             |
+| `itinerary`           | [Object] | —                          | Array of ItineraryDay (AI-generated)                           |
 
 #### `partnerprofiles`
-| Field | Type | Constraints | Description |
-|-------|------|------------|-------------|
-| `userId` | ObjectId | Ref: User, Required, Unique | Linked user account |
-| `companyName` | String | Required | Business name |
-| `destinations` | [String] | — | Served destinations |
-| `type` | String | Enum: DMC, Hotel, CabProvider, Mixed | Business type |
-| `specializations` | [String] | — | E.g., "Honeymoon", "Luxury" |
-| `budgetRange.min/max` | Number | — | Price range |
-| `rating` | Number | Default: 4.5 | Partner rating |
-| `tripsHandled` | Number | Default: 0 | Completed trips count |
-| `description` | String | — | Free-text business description |
-| `description_embedding` | [Number] | — | Gemini 768-dim vector embedding |
-| `images` | [String] | — | Photo URLs |
-| `amenities` | [String] | — | Hotel amenities |
-| `sightSeeing` | [String] | — | Local attractions |
-| `startingPrice` | Number | — | Base room rate per night |
-| `reviews` | Number | Default: 0 | Review count |
+
+| Field                   | Type     | Constraints                          | Description                     |
+| ----------------------- | -------- | ------------------------------------ | ------------------------------- |
+| `userId`                | ObjectId | Ref: User, Required, Unique          | Linked user account             |
+| `companyName`           | String   | Required                             | Business name                   |
+| `destinations`          | [String] | —                                    | Served destinations             |
+| `type`                  | String   | Enum: DMC, Hotel, CabProvider, Mixed | Business type                   |
+| `specializations`       | [String] | —                                    | E.g., "Honeymoon", "Luxury"     |
+| `budgetRange.min/max`   | Number   | —                                    | Price range                     |
+| `rating`                | Number   | Default: 4.5                         | Partner rating                  |
+| `tripsHandled`          | Number   | Default: 0                           | Completed trips count           |
+| `description`           | String   | —                                    | Free-text business description  |
+| `description_embedding` | [Number] | —                                    | Gemini 768-dim vector embedding |
+| `images`                | [String] | —                                    | Photo URLs                      |
+| `amenities`             | [String] | —                                    | Hotel amenities                 |
+| `sightSeeing`           | [String] | —                                    | Local attractions               |
+| `startingPrice`         | Number   | —                                    | Base room rate per night        |
+| `reviews`               | Number   | Default: 0                           | Review count                    |
 
 #### `partnerhotels` / `partnertransports` / `partneractivities`
+
 Separate inventory collections for granular partner offerings with `partnerId` foreign key.
 
 ### Relationships
@@ -445,12 +450,12 @@ User [Partner] (1) ──── (N) Quote (as partnerId)
 
 ### Role-Based Access Control [CONFIRMED]
 
-| Role | Capabilities |
-|------|-------------|
-| **USER** | Submit requirements, view own requirement, plan journey |
-| **AGENT** | Full CRUD on requirements, quotes, partner filtering, itinerary gen |
-| **PARTNER** | Manage own profile, add inventory items |
-| **ADMIN** | Same as Agent (shares route authorization) |
+| Role        | Capabilities                                                        |
+| ----------- | ------------------------------------------------------------------- |
+| **USER**    | Submit requirements, view own requirement, plan journey             |
+| **AGENT**   | Full CRUD on requirements, quotes, partner filtering, itinerary gen |
+| **PARTNER** | Manage own profile, add inventory items                             |
+| **ADMIN**   | Same as Agent (shares route authorization)                          |
 
 ### Password Security [CONFIRMED]
 
@@ -470,21 +475,21 @@ User [Partner] (1) ──── (N) Quote (as partnerId)
 
 ### Backend (`backend/.env`)
 
-| Variable | Purpose | Required |
-|----------|---------|----------|
-| `PORT` | Express server port | Yes (default: 5000) |
-| `MONGO_URI` | MongoDB Atlas connection string | Yes |
-| `JWT_SECRET` | Secret key for JWT signing | Yes |
-| `GEMINI_API_KEY` | Google Gemini API key for embeddings | Yes (degrades gracefully) |
-| `GROQ_API_KEY` | Groq API key for Llama LLM | Yes (throws if missing) |
-| `WEB3FORMS_ACCESS_KEY` | Web3Forms key for email delivery | Optional (falls back to console logging) |
+| Variable               | Purpose                              | Required                                 |
+| ---------------------- | ------------------------------------ | ---------------------------------------- |
+| `PORT`                 | Express server port                  | Yes (default: 5000)                      |
+| `MONGO_URI`            | MongoDB Atlas connection string      | Yes                                      |
+| `JWT_SECRET`           | Secret key for JWT signing           | Yes                                      |
+| `GEMINI_API_KEY`       | Google Gemini API key for embeddings | Yes (degrades gracefully)                |
+| `GROQ_API_KEY`         | Groq API key for Llama LLM           | Yes (throws if missing)                  |
+| `WEB3FORMS_ACCESS_KEY` | Web3Forms key for email delivery     | Optional (falls back to console logging) |
 
 ### Frontend (`frontend/.env`)
 
-| Variable | Purpose | Required |
-|----------|---------|----------|
-| `VITE_API_URL` | Backend API base URL (e.g., `http://localhost:5000`) | Yes |
-| `VITE_PEXELS_API_KEY` | Pexels API key for itinerary/PDF images | Optional (degrades gracefully) |
+| Variable              | Purpose                                              | Required                       |
+| --------------------- | ---------------------------------------------------- | ------------------------------ |
+| `VITE_API_URL`        | Backend API base URL (e.g., `http://localhost:5000`) | Yes                            |
+| `VITE_PEXELS_API_KEY` | Pexels API key for itinerary/PDF images              | Optional (degrades gracefully) |
 
 ---
 
@@ -540,8 +545,6 @@ npm run dev
 
 The backend runs on `http://localhost:5000` and the frontend on `http://localhost:5173`.
 
----
-
 ## 11. Error Handling & Logging
 
 ### Error Handling Strategy [CONFIRMED]
@@ -578,16 +581,16 @@ The backend runs on `http://localhost:5000` and the frontend on `http://localhos
 
 ### Patterns Identified
 
-| Pattern | Where | Evidence |
-|---------|-------|----------|
-| **MVC (Model-View-Controller)** | Backend | Clear separation: `models/` → `controllers/` → `routes/` |
-| **Repository-like Controller** | Backend | Controllers directly use Mongoose models (no separate repository layer) |
-| **Context Provider** | Frontend | `AuthContext` wraps the entire app, providing auth state via React Context |
-| **Route Guard** | Frontend | `ProtectedRoute` component checks role before rendering children |
-| **Layout Composition** | Frontend | `AgentLayout`/`PartnerLayout` with React Router `Outlet` for nested routing |
-| **Shared DTO Contract** | Shared | `shared/types.ts` is imported by both frontend and backend via relative paths |
-| **Seeder Pattern** | Backend | Standalone scripts for database seeding with batch embedding generation |
-| **Utility Module** | Both | Small, focused utility files (emailUtils, vectorUtils, generatePDF) |
+| Pattern                         | Where    | Evidence                                                                      |
+| ------------------------------- | -------- | ----------------------------------------------------------------------------- |
+| **MVC (Model-View-Controller)** | Backend  | Clear separation: `models/` → `controllers/` → `routes/`                      |
+| **Repository-like Controller**  | Backend  | Controllers directly use Mongoose models (no separate repository layer)       |
+| **Context Provider**            | Frontend | `AuthContext` wraps the entire app, providing auth state via React Context    |
+| **Route Guard**                 | Frontend | `ProtectedRoute` component checks role before rendering children              |
+| **Layout Composition**          | Frontend | `AgentLayout`/`PartnerLayout` with React Router `Outlet` for nested routing   |
+| **Shared DTO Contract**         | Shared   | `shared/types.ts` is imported by both frontend and backend via relative paths |
+| **Seeder Pattern**              | Backend  | Standalone scripts for database seeding with batch embedding generation       |
+| **Utility Module**              | Both     | Small, focused utility files (emailUtils, vectorUtils, generatePDF)           |
 
 ### Notable Architectural Decisions
 
@@ -610,21 +613,21 @@ The backend runs on `http://localhost:5000` and the frontend on `http://localhos
 
 ## 14. Current Limitations
 
-| Limitation | Location | Description |
-|------------|----------|-------------|
-| No pagination | `requirementController.ts`, `quoteController.ts` | All queries use `find({})` — will degrade with volume |
-| In-memory vector search | `partnerController.ts:filterPartners` | Cosine similarity computed in Node.js, not in MongoDB Atlas Vector Search |
-| No input sanitization | All controllers | Raw `req.body` is passed to Mongoose; no schema validation middleware (Zod, Joi) |
-| Hardcoded transport pricing | `quoteController.ts:62` | Transport cost is fixed at ₹3000/day regardless of partner |
-| No file upload | Partner profile/inventory | All images are external URLs; no upload mechanism |
-| No WebSocket/SSE | — | No real-time updates for quote status changes |
-| No rate limiting | `server.ts` | No throttling on public endpoints (`/api/requirements`, `/api/quotes/public/:token`) |
-| JWT in localStorage | `AuthContext.tsx` | Vulnerable to XSS; HttpOnly cookies would be more secure |
-| No refresh token | — | Single 30-day JWT with no rotation mechanism |
-| Partner dashboard is minimal | `PartnerDashboard.tsx` | Only 358 bytes; renders a simple "Partner Portal" heading |
-| Admin UI missing | — | Admin role exists in auth but no admin-specific pages or routes |
-| No HTTPS enforcement | — | Development-only HTTP setup |
-| `.env` committed to git | Root `.gitignore` | Contains live API keys and database credentials |
+| Limitation                   | Location                                         | Description                                                                          |
+| ---------------------------- | ------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| No pagination                | `requirementController.ts`, `quoteController.ts` | All queries use `find({})` — will degrade with volume                                |
+| In-memory vector search      | `partnerController.ts:filterPartners`            | Cosine similarity computed in Node.js, not in MongoDB Atlas Vector Search            |
+| No input sanitization        | All controllers                                  | Raw `req.body` is passed to Mongoose; no schema validation middleware (Zod, Joi)     |
+| Hardcoded transport pricing  | `quoteController.ts:62`                          | Transport cost is fixed at ₹3000/day regardless of partner                           |
+| No file upload               | Partner profile/inventory                        | All images are external URLs; no upload mechanism                                    |
+| No WebSocket/SSE             | —                                                | No real-time updates for quote status changes                                        |
+| No rate limiting             | `server.ts`                                      | No throttling on public endpoints (`/api/requirements`, `/api/quotes/public/:token`) |
+| JWT in localStorage          | `AuthContext.tsx`                                | Vulnerable to XSS; HttpOnly cookies would be more secure                             |
+| No refresh token             | —                                                | Single 30-day JWT with no rotation mechanism                                         |
+| Partner dashboard is minimal | `PartnerDashboard.tsx`                           | Only 358 bytes; renders a simple "Partner Portal" heading                            |
+| Admin UI missing             | —                                                | Admin role exists in auth but no admin-specific pages or routes                      |
+| No HTTPS enforcement         | —                                                | Development-only HTTP setup                                                          |
+| `.env` committed to git      | Root `.gitignore`                                | Contains live API keys and database credentials                                      |
 
 ---
 
@@ -632,32 +635,32 @@ The backend runs on `http://localhost:5000` and the frontend on `http://localhos
 
 ### Inferred from Code
 
-| Feature | Evidence | Source |
-|---------|----------|--------|
-| Multi-step form wizard | `RequirementForm.tsx:14` — `const [step, setStep] = useState(1)` commented as `// Unused` | Component was designed for a multi-step flow but simplified to single-page |
-| WhatsApp contact integration | `Requirement` schema has `contactInfo.whatsapp` field | `Requirement.ts:36`, `shared/types.ts:39` |
-| Partner descriptions as search index | `description_embedding` field with batch embedding on seed | `PartnerProfile.ts:48-51`, `seedPartners.ts:24` |
-| Image gallery for partners | `images: [String]` in PartnerProfile schema | `PartnerProfile.ts:40` |
-| Rating and review system | `rating` and `reviews` fields exist on PartnerProfile | `PartnerProfile.ts:31-47` |
-| Preference-based filtering | `preferences: [String]` in Requirement schema | `Requirement.ts:31` — currently collected but not used in partner matching |
+| Feature                              | Evidence                                                                                  | Source                                                                     |
+| ------------------------------------ | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Multi-step form wizard               | `RequirementForm.tsx:14` — `const [step, setStep] = useState(1)` commented as `// Unused` | Component was designed for a multi-step flow but simplified to single-page |
+| WhatsApp contact integration         | `Requirement` schema has `contactInfo.whatsapp` field                                     | `Requirement.ts:36`, `shared/types.ts:39`                                  |
+| Partner descriptions as search index | `description_embedding` field with batch embedding on seed                                | `PartnerProfile.ts:48-51`, `seedPartners.ts:24`                            |
+| Image gallery for partners           | `images: [String]` in PartnerProfile schema                                               | `PartnerProfile.ts:40`                                                     |
+| Rating and review system             | `rating` and `reviews` fields exist on PartnerProfile                                     | `PartnerProfile.ts:31-47`                                                  |
+| Preference-based filtering           | `preferences: [String]` in Requirement schema                                             | `Requirement.ts:31` — currently collected but not used in partner matching |
 
 ### Suggested — Not in Code
 
-| Suggestion | Rationale |
-|------------|-----------|
-| **MongoDB Atlas Vector Search** | Replace in-memory cosine similarity with native `$vectorSearch` for scalability |
-| **Pagination + infinite scroll** | Add `skip`/`limit` to all list endpoints to handle growing data |
-| **Input validation middleware** (Zod/Joi) | Enforce request schemas before reaching controllers |
-| **Automated test suite** | Add Vitest for unit tests, Playwright for E2E flows |
-| **Admin dashboard** | Build analytics, user management, and system monitoring for the ADMIN role |
-| **Real-time notifications** (WebSocket/SSE) | Notify agents when new requirements arrive; notify travelers on quote status change |
-| **HttpOnly cookie auth** | Move JWT from localStorage to HttpOnly cookies to prevent XSS |
-| **CI/CD pipeline** | GitHub Actions for linting, testing, building, and deploying |
-| **Docker containerization** | Dockerfiles for frontend and backend with docker-compose for local development |
-| **Multi-currency support** | Currently hardcoded to INR; add currency conversion for international quotes |
-| **Quote comparison view for travelers** | Allow travelers to view and compare multiple quotes side-by-side |
-| **Itinerary collaborative editing** | Real-time collaborative editing between agent and traveler |
-| **Analytics dashboard** | Track conversion rates (quotes sent → accepted), popular destinations, agent performance |
+| Suggestion                                  | Rationale                                                                                |
+| ------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| **MongoDB Atlas Vector Search**             | Replace in-memory cosine similarity with native `$vectorSearch` for scalability          |
+| **Pagination + infinite scroll**            | Add `skip`/`limit` to all list endpoints to handle growing data                          |
+| **Input validation middleware** (Zod/Joi)   | Enforce request schemas before reaching controllers                                      |
+| **Automated test suite**                    | Add Vitest for unit tests, Playwright for E2E flows                                      |
+| **Admin dashboard**                         | Build analytics, user management, and system monitoring for the ADMIN role               |
+| **Real-time notifications** (WebSocket/SSE) | Notify agents when new requirements arrive; notify travelers on quote status change      |
+| **HttpOnly cookie auth**                    | Move JWT from localStorage to HttpOnly cookies to prevent XSS                            |
+| **CI/CD pipeline**                          | GitHub Actions for linting, testing, building, and deploying                             |
+| **Docker containerization**                 | Dockerfiles for frontend and backend with docker-compose for local development           |
+| **Multi-currency support**                  | Currently hardcoded to INR; add currency conversion for international quotes             |
+| **Quote comparison view for travelers**     | Allow travelers to view and compare multiple quotes side-by-side                         |
+| **Itinerary collaborative editing**         | Real-time collaborative editing between agent and traveler                               |
+| **Analytics dashboard**                     | Track conversion rates (quotes sent → accepted), popular destinations, agent performance |
 
 ---
 
