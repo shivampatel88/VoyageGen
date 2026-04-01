@@ -72,6 +72,7 @@ const quoteSchema = new Schema<IQuote>({
         meals: [String],
         tips: String,
     }],
+    viewedAt: Date,
 }, {
     timestamps: true,
 });

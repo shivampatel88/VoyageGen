@@ -4,7 +4,6 @@ import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
 import { FaFileInvoice, FaEye, FaDownload, FaSpinner, FaTrash, FaShare, FaEnvelope, FaWhatsapp, FaInstagram, FaSearch, FaFilter } from 'react-icons/fa';
 import { motion } from 'framer-motion';
-import AgentHeader from '../../components/AgentHeader';
 
 const QuotesList: React.FC = () => {
     const { user } = useAuth();
@@ -286,7 +285,7 @@ const QuotesList: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-black text-white font-sans selection:bg-emerald-500 selection:text-white">
-            <AgentHeader />
+
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">

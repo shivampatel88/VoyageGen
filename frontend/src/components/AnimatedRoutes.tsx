@@ -18,6 +18,7 @@ import AgentDashboard from '../pages/agent/AgentDashboard';
 import RequirementDetails from '../pages/agent/RequirementDetails';
 import QuoteEditor from '../pages/agent/QuoteEditor';
 import QuotesList from '../pages/agent/QuotesList';
+import AgentAnalytics from '../pages/agent/AgentAnalytics';
 
 // Partner Pages
 import PartnerDashboard from '../pages/partner/PartnerDashboard';
@@ -53,9 +54,11 @@ const AnimatedRoutes: React.FC = () => {
                     </ProtectedRoute>
                 }>
                     <Route index element={<AgentDashboard />} />
+                    <Route path="dashboard" element={<AgentDashboard />} />
                     <Route path="requirement/:id" element={<RequirementDetails />} />
                     <Route path="quote/:id" element={<QuoteEditor />} />
                     <Route path="quotes" element={<QuotesList />} />
+                    <Route path="analytics" element={<AgentAnalytics />} />
                 </Route>
 
                 {/* Partner Routes */}

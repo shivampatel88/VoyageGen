@@ -254,6 +254,12 @@ export const getPublicQuote = async (req: Request, res: Response) => {
             res.status(404).json({ message: 'Quote not found or link expired' });
             return;
         }
+        
+        // Update viewedAt on first access
+        if (!quote.viewedAt) {
+            quote.viewedAt = new Date();
+            await quote.save();
+        }
 
         res.json(quote);
     } catch (error: unknown) {

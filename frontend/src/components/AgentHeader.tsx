@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { FaCompass, FaFileInvoiceDollar, FaHotel, FaSignOutAlt, FaUserCircle, FaBars, FaTimes } from 'react-icons/fa';
+import { FaCompass, FaFileInvoiceDollar, FaSignOutAlt, FaBars, FaTimes, FaChartBar } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const AgentHeader: React.FC = () => {
@@ -18,7 +18,7 @@ const AgentHeader: React.FC = () => {
     const navItems = [
         { path: '/agent/dashboard', label: 'Dashboard', icon: FaCompass },
         { path: '/agent/quotes', label: 'Quotes', icon: FaFileInvoiceDollar },
-        { path: '/partner/inventory', label: 'Inventory', icon: FaHotel },
+        { path: '/agent/analytics', label: 'Analytics', icon: FaChartBar }
     ];
 
     const isActive = (path: string) => location.pathname === path;
