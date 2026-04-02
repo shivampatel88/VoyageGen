@@ -3,10 +3,14 @@ import { motion } from 'framer-motion';
 import { FaPlane, FaCalendarAlt, FaUserFriends, FaStar } from 'react-icons/fa';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const PlanJourney: React.FC = () => {
     const navigate = useNavigate();
+    const { user } = useAuth();
+    const token = user?.token || '';
     const [loading, setLoading] = useState(false);
+
     const [formData, setFormData] = useState({
         destination: '',
         tripType: 'Honeymoon',
@@ -41,7 +45,12 @@ const PlanJourney: React.FC = () => {
         e.preventDefault();
         setLoading(true);
         try {
-            await axios.post(`${import.meta.env.VITE_API_URL}/api/requirements`, formData);
+            const headers = { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            };
+            
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/requirements`, formData, { headers });
             setLoading(false);
             navigate('/thank-you');
         } catch (error) {
