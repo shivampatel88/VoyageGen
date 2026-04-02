@@ -212,11 +212,38 @@ export const getUserQuotes = async (req: Request, res: Response) => {
             return;
         }
 
-        // First find all requirements for this user
+        const { requirementId } = req.query;
+        
+        if (requirementId) {
+            // If requirementId is provided, get quotes for that specific requirement
+            // Verify the requirement belongs to the user
+            const requirement = await Requirement.findOne({ 
+                _id: requirementId, 
+                userId: req.user.id 
+            });
+            
+            if (!requirement) {
+                res.status(404).json({ message: 'Requirement not found or does not belong to user' });
+                return;
+            }
+            
+            // Get quotes for this specific requirement
+            const quotes = await Quote.find({ 
+                requirementId: requirementId,
+                status: { $in: ['SENT_TO_USER', 'ACCEPTED', 'DECLINED'] }
+            })
+            .populate('partnerId', 'name companyName')
+            .populate('requirementId', 'destination tripType budget duration')
+            .sort({ createdAt: -1 });
+            
+            res.json(quotes);
+            return;
+        }
+
+        // Default behavior: get all quotes for the user
         const userRequirements = await Requirement.find({ userId: req.user.id }).select('_id');
         const requirementIds = userRequirements.map(req => req._id);
         
-        // Then find quotes for those requirements that are sent to user
         const quotes = await Quote.find({ 
             requirementId: { $in: requirementIds },
             status: { $in: ['SENT_TO_USER', 'ACCEPTED', 'DECLINED'] }

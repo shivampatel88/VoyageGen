@@ -13,6 +13,8 @@ import { Link } from 'react-router-dom';
 const AgentDashboard: React.FC = () => {
     const [requirements, setRequirements] = useState<Requirement[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const { user } = useAuth();
+    const token = user?.token || '';
 
     useEffect(() => {
         fetchRequirements();
@@ -20,10 +22,8 @@ const AgentDashboard: React.FC = () => {
 
     const fetchRequirements = async () => {
         try {
-            const userInfo = localStorage.getItem('userInfo');
-            if (!userInfo) return;
+            if (!token) return;
 
-            const { token } = JSON.parse(userInfo);
             const { data } = await axios.get<Requirement[]>(
                 `${import.meta.env.VITE_API_URL}/api/requirements`,
                 { headers: { Authorization: `Bearer ${token}` } }

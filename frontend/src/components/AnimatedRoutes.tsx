@@ -86,6 +86,7 @@ const AnimatedRoutes: React.FC = () => {
                     <Route index element={<TravelerDashboard />} />
                     <Route path="dashboard" element={<TravelerDashboard />} />
                     <Route path="quotes" element={<TravelerQuotes />} />
+                    <Route path="quotes/:requirementId" element={<TravelerQuotes />} />
                     <Route path="plan-journey" element={<PlanJourney />} />
                 </Route>
             </Routes>

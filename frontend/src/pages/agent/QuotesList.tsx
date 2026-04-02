@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
-import { toast } from 'react-hot-toast';
 import QuoteFilters from '../../components/agent/QuoteFilters';
 import QuoteCard from '../../components/agent/QuoteCard';
 import EmptyState from '../../components/agent/EmptyState';

@@ -6,11 +6,12 @@ import { FaSpinner } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { 
     FaMapMarkerAlt, FaUsers, FaCalendarAlt, FaMoneyBillWave, 
-    FaSuitcase, FaClock, FaStar, FaArrowRight, FaPlane
+    FaSuitcase, FaClock, FaStar, FaArrowRight, FaPlane, FaEye
 } from 'react-icons/fa';
 
 const TravelerDashboard: React.FC = () => {
     const { user } = useAuth();
+    const token = user?.token || '';
     const [requirements, setRequirements] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
@@ -20,10 +21,6 @@ const TravelerDashboard: React.FC = () => {
 
     const fetchRequirements = async () => {
         try {
-            const userInfo = localStorage.getItem('userInfo');
-            if (!userInfo) return;
-
-            const { token } = JSON.parse(userInfo);
             const { data } = await axios.get(
                 `${import.meta.env.VITE_API_URL}/api/requirements/user`,
                 { headers: { Authorization: `Bearer ${token}` } }
@@ -104,7 +101,7 @@ const TravelerDashboard: React.FC = () => {
                 </motion.div>
 
                 {/* Quick Actions */}
-                <motion.div
+                {/* <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
@@ -137,7 +134,7 @@ const TravelerDashboard: React.FC = () => {
                             </div>
                         </Link>
                     </div>
-                </motion.div>
+                </motion.div> */}
 
                 {/* Recent Journeys */}
                 <motion.div
@@ -222,6 +219,16 @@ const TravelerDashboard: React.FC = () => {
                                                 <p className="text-gray-400 text-sm line-clamp-2">{req.description}</p>
                                             </div>
                                         )}
+                                        
+                                        <div className="border-t border-zinc-800/50 pt-4 mt-4">
+                                            <Link
+                                                to={`/traveler/quotes/${req._id}`}
+                                                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 text-blue-400 font-medium rounded-lg hover:bg-blue-500/20 transition-colors border border-blue-500/20"
+                                            >
+                                                <FaEye size={14} />
+                                                See Quotes
+                                            </Link>
+                                        </div>
                                     </div>
                                 </motion.div>
                             ))}
