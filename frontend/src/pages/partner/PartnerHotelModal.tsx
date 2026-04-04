@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
-import { FaSave, FaSpinner, FaCheckCircle, FaHotel, FaPhone, FaMapMarkerAlt, FaStar, FaMoneyBillWave, FaClock, FaTimes } from 'react-icons/fa';
+import { FaSave, FaSpinner, FaCheckCircle, FaHotel, FaPhone, FaMapMarkerAlt, FaStar, FaMoneyBillWave, FaClock, FaTimes, FaPlus } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
 interface PartnerProfileData {
     _id?: string;
     companyName?: string;
-    destinations?: string;
     type?: string;
     specializations?: string[];
     budgetRange?: {
@@ -68,6 +67,10 @@ const PartnerHotelModal: React.FC<PartnerHotelModalProps> = ({ isOpen, onClose, 
     const [profile, setProfile] = useState<PartnerProfileData>(initialData);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
+    
+    // Local states for tag inputs
+    const [currentSpecialization, setCurrentSpecialization] = useState("");
+    const [currentAmenity, setCurrentAmenity] = useState("");
 
     useEffect(() => {
         setProfile(initialData);
@@ -99,6 +102,22 @@ const PartnerHotelModal: React.FC<PartnerHotelModalProps> = ({ isOpen, onClose, 
         }));
     };
 
+    const handleAddStringItem = (field: 'specializations' | 'amenities', value: string, setter: React.Dispatch<React.SetStateAction<string>>) => {
+        if (!value.trim()) return;
+        setProfile(prev => ({
+            ...prev,
+            [field]: [...(prev[field] || []), value.trim()]
+        }));
+        setter("");
+    };
+
+    const handleRemoveStringItem = (field: 'specializations' | 'amenities', index: number) => {
+        setProfile(prev => ({
+            ...prev,
+            [field]: (prev[field] || []).filter((_, i) => i !== index)
+        }));
+    };
+
     const addArrayItem = (field: string, newItem: any) => {
         setProfile(prev => ({
             ...prev,
@@ -117,8 +136,14 @@ const PartnerHotelModal: React.FC<PartnerHotelModalProps> = ({ isOpen, onClose, 
         e.preventDefault();
         setLoading(true);
         try {
+            // Sanitize payload to strip out any trailing empty array items
+            const payload = {
+                ...profile,
+                roomTypes: profile.roomTypes?.filter(r => r.name && r.name.trim() !== '')
+            };
+
             const config = { headers: { Authorization: `Bearer ${user?.token}` } };
-            await axios.post(`${import.meta.env.VITE_API_URL}/api/partners/profile`, profile, config);
+            await axios.post(`${import.meta.env.VITE_API_URL}/api/partners/profile`, payload, config);
             setSuccess(true);
             setTimeout(() => {
                 setSuccess(false);
@@ -172,7 +197,7 @@ const PartnerHotelModal: React.FC<PartnerHotelModalProps> = ({ isOpen, onClose, 
                         </h2>
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
+                            <div className="md:col-span-2">
                                 <label className="block text-sm font-medium text-gray-300 mb-2">Company Name</label>
                                 <input
                                     type="text"
@@ -184,16 +209,40 @@ const PartnerHotelModal: React.FC<PartnerHotelModalProps> = ({ isOpen, onClose, 
                                 />
                             </div>
                             
-                            <div>
-                                <label className="block text-sm font-medium text-gray-300 mb-2">Destination</label>
-                                <input
-                                    type="text"
-                                    name="destinations"
-                                    value={profile.destinations || ''}
-                                    onChange={handleInputChange}
-                                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-emerald-500 text-white"
-                                    required
-                                />
+                            <div className="md:col-span-2">
+                                <label className="block text-sm font-medium text-gray-300 mb-2">Specializations</label>
+                                <div className="flex gap-2 mb-3">
+                                    <input
+                                        type="text"
+                                        value={currentSpecialization}
+                                        onChange={(e) => setCurrentSpecialization(e.target.value)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                                e.preventDefault();
+                                                handleAddStringItem('specializations', currentSpecialization, setCurrentSpecialization);
+                                            }
+                                        }}
+                                        placeholder="e.g. Scuba, Safari"
+                                        className="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-emerald-500 text-white"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => handleAddStringItem('specializations', currentSpecialization, setCurrentSpecialization)}
+                                        className="px-4 py-3 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors flex items-center justify-center"
+                                    >
+                                        <FaPlus />
+                                    </button>
+                                </div>
+                                <div className="flex flex-wrap gap-2">
+                                    {(profile.specializations || []).map((item, index) => (
+                                        <div key={index} className="px-3 py-1.5 bg-gray-700 text-gray-200 rounded-full flex items-center gap-2 text-sm">
+                                            {item}
+                                            <button type="button" onClick={() => handleRemoveStringItem('specializations', index)} className="text-gray-400 hover:text-red-400">
+                                                <FaTimes size={12} />
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                             
                             <div>
@@ -215,7 +264,7 @@ const PartnerHotelModal: React.FC<PartnerHotelModalProps> = ({ isOpen, onClose, 
                                 <select
                                     name="starRating"
                                     value={profile.starRating || ''}
-                                    onChange={(e) => handleNestedChange('starRating', '', Number(e.target.value))}
+                                    onChange={handleInputChange}
                                     className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-emerald-500 text-white"
                                 >
                                     <option value="">Select Rating</option>
@@ -238,6 +287,42 @@ const PartnerHotelModal: React.FC<PartnerHotelModalProps> = ({ isOpen, onClose, 
                                 className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-emerald-500 text-white"
                                 required
                             />
+                        </div>
+
+                        <div className="mt-6">
+                            <label className="block text-sm font-medium text-gray-300 mb-2">Amenities</label>
+                            <div className="flex gap-2 mb-3">
+                                <input
+                                    type="text"
+                                    value={currentAmenity}
+                                    onChange={(e) => setCurrentAmenity(e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            e.preventDefault();
+                                            handleAddStringItem('amenities', currentAmenity, setCurrentAmenity);
+                                        }
+                                    }}
+                                    placeholder="e.g. Wi-Fi, Pool, Gym"
+                                    className="flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-emerald-500 text-white"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => handleAddStringItem('amenities', currentAmenity, setCurrentAmenity)}
+                                    className="px-4 py-3 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors flex items-center justify-center"
+                                >
+                                    <FaPlus />
+                                </button>
+                            </div>
+                            <div className="flex flex-wrap gap-2">
+                                {(profile.amenities || []).map((item, index) => (
+                                    <div key={index} className="px-3 py-1.5 bg-gray-700 text-gray-200 rounded-full flex items-center gap-2 text-sm">
+                                        {item}
+                                        <button type="button" onClick={() => handleRemoveStringItem('amenities', index)} className="text-gray-400 hover:text-red-400">
+                                            <FaTimes size={12} />
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
 
                         <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -489,8 +574,9 @@ const PartnerHotelModal: React.FC<PartnerHotelModalProps> = ({ isOpen, onClose, 
                                 <label className="block text-sm font-medium text-gray-300 mb-2">Check-in Time</label>
                                 <input
                                     type="text"
+                                    name="checkIn"
                                     value={profile.checkIn || ''}
-                                    onChange={(e) => handleNestedChange('checkIn', '', e.target.value)}
+                                    onChange={handleInputChange}
                                     placeholder="e.g., 2:00 PM"
                                     className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-emerald-500 text-white"
                                 />
@@ -500,8 +586,9 @@ const PartnerHotelModal: React.FC<PartnerHotelModalProps> = ({ isOpen, onClose, 
                                 <label className="block text-sm font-medium text-gray-300 mb-2">Check-out Time</label>
                                 <input
                                     type="text"
+                                    name="checkOut"
                                     value={profile.checkOut || ''}
-                                    onChange={(e) => handleNestedChange('checkOut', '', e.target.value)}
+                                    onChange={handleInputChange}
                                     placeholder="e.g., 12:00 PM"
                                     className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-emerald-500 text-white"
                                 />
