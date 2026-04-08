@@ -298,7 +298,9 @@ export const getQuotesByRequirement = async (req: Request, res: Response) => {
 // @access  Private (Agent)
 export const getQuoteById = async (req: Request, res: Response) => {
     try {
-        const quote = await Quote.findById(req.params.id).populate('partnerId', 'name companyName');
+        const quote = await Quote.findById(req.params.id)
+            .populate('partnerId', 'name companyName')
+            .populate('requirementId', 'destination tripType duration pax contactInfo');
         if (quote) {
             res.json(quote);
         } else {
