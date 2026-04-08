@@ -24,6 +24,8 @@ import AgentAnalytics from '../pages/agent/AgentAnalytics';
 // Partner Pages
 import PartnerDashboard from '../pages/partner/PartnerDashboard';
 import Inventory from '../pages/partner/Inventory';
+import PartnerProfile from '../pages/partner/PartnerProfile';
+import PartnerQuotes from '../pages/partner/PartnerQuotes';
 
 // Traveler Pages
 import TravelerDashboard from '../pages/traveler/TravelerDashboard';
@@ -31,7 +33,6 @@ import TravelerQuotes from '../pages/traveler/TravelerQuotes';
 
 // Public Pages
 import PublicQuoteView from '../pages/PublicQuoteView';
-import CompareView from '../pages/public/CompareView';
 import QuoteAccepted from '../pages/public/QuoteAccepted';
 
 // Components
@@ -50,7 +51,6 @@ const AnimatedRoutes: React.FC = () => {
 
                 {/* Public View */}
                 <Route path="/quote/view/:token" element={<PublicQuoteView />} />
-                <Route path="/quote/compare/:token" element={<CompareView />} />
                 <Route path="/quote/accepted/:quoteId" element={<QuoteAccepted />} />
 
                 {/* Agent Routes */}
@@ -74,7 +74,10 @@ const AnimatedRoutes: React.FC = () => {
                     </ProtectedRoute>
                 }>
                     <Route index element={<PartnerDashboard />} />
+                    <Route path="dashboard" element={<PartnerDashboard />} />
                     <Route path="inventory" element={<Inventory />} />
+                    <Route path="profile" element={<PartnerProfile />} />
+                    <Route path="quotes" element={<PartnerQuotes />} />
                 </Route>
 
                 {/* Traveler Routes */}
