@@ -1,61 +1,147 @@
+// Destination imagery served from local high-quality assets in /public.
+
 export const destinations = [
     {
         id: 1,
-        name: "Paris",
-        image: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=2073&auto=format&fit=crop",
-        brief: "The City of Light draws millions with its culture, gastronomy, and fashion.",
-        description: "Paris is the capital and most populous city of France. Known for its cafe culture, the Eiffel Tower, the Louvre, and its streets brimming with history and romance.",
+        name: "Kashmir, India",
+        // Shikara boats on Dal Lake with snow-dusted Himalayas reflecting in golden morning light
+        image: "/Kashmir.jpg",
+        category: "Winter Paradise",
+        brief: "Paradise on Earth with snow-capped peaks and pristine lakes.",
+        description: "Known as 'Heaven on Earth', Jammu and Kashmir is world-famous for its scenic splendor, snow-capped mountains, plentiful wildlife, exquisite monuments, hospitable people, and local handicrafts. Shikara rides on Dal Lake are unforgettable.",
         reviews: [
-            { id: 1, user: "Alice M.", comment: "Absolutely magical! The Eiffel Tower at night is a must-see.", rating: 5 },
-            { id: 2, user: "John D.", comment: "Great food, but a bit crowded in summer.", rating: 4 },
-            { id: 3, user: "Sophie L.", comment: "A dream come true. Every corner is a photo op.", rating: 5 },
+            { id: 1, user: "Aisha R.", comment: "Truly heaven. The Dal Lake at sunset is pure magic.", rating: 5 },
+            { id: 2, user: "Vikram S.", comment: "Gulmarg's snow is perfect. The hospitality is unmatched.", rating: 5 },
+        ],
+        averageRating: 4.9,
+    },
+    {
+        id: 2,
+        name: "Udaipur, India",
+        // Taj Lake Palace glowing at dusk — pure fairy-tale royalty on still water
+        image: "/udaipur.jpg",
+        category: "Royal Heritage",
+        brief: "The City of Lakes offering timeless royal grandeur.",
+        description: "Often called the Venice of the East, Udaipur is located around azure water lakes and is hemmed in by lush green hills of Aravallis. The Lake Palace, located in the middle of Lake Pichola, is one of the most beautiful sights in Rajasthan.",
+        reviews: [
+            { id: 1, user: "Neha K.", comment: "Felt like royalty. The architecture is stunning.", rating: 5 },
+            { id: 2, user: "David M.", comment: "A romantic city with incredible history.", rating: 4.8 },
         ],
         averageRating: 4.8,
     },
     {
-        id: 2,
-        name: "Bali",
-        image: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=2038&auto=format&fit=crop",
-        brief: "An Indonesian paradise known for its forested volcanic mountains and beaches.",
-        description: "Bali is a province of Indonesia and the westernmost of the Lesser Sunda Islands. It is known for its yoga and meditation retreats, vibrant nightlife, and iconic rice paddies.",
-        reviews: [
-            { id: 1, user: "Mark T.", comment: "The most relaxing vacation I've ever had.", rating: 5 },
-            { id: 2, user: "Sarah K.", comment: "Beautiful beaches and amazing culture.", rating: 5 },
-            { id: 3, user: "David R.", comment: "Traffic was bad, but the villas are incredible.", rating: 4 },
-        ],
-        averageRating: 4.7,
-    },
-    {
         id: 3,
-        name: "Dubai",
-        image: "https://images.unsplash.com/photo-1512453979798-5ea904ac6605?q=80&w=2070&auto=format&fit=crop",
-        brief: "A city of skyscrapers, ports, and beaches, where big business takes place alongside sun-seeking tourism.",
-        description: "Dubai is known for luxury shopping, ultramodern architecture and a lively nightlife scene. Burj Khalifa, an 830m-tall tower, dominates the skyscraper-filled skyline.",
+        name: "Munnar, India",
+        // Rolling emerald tea estates under a moody mist — quintessential Munnar
+        image: "/munnar.jpg",
+        category: "Verdant Hills",
+        brief: "Lush green tea estates rolling over misty hills.",
+        description: "Munnar is a town in the Western Ghats mountain range in India's Kerala state. It's surrounded by rolling hills dotted with tea plantations established in the late 19th century. The mist-covered peaks feel ethereal.",
         reviews: [
-            { id: 1, user: "Ahmed F.", comment: "Futuristic and clean. The shopping is endless.", rating: 5 },
-            { id: 2, user: "Elena G.", comment: "Very hot, but the indoor attractions are cool.", rating: 4 },
-            { id: 3, user: "Chris P.", comment: "Luxury at its finest. Expensive but worth it.", rating: 5 },
+            { id: 1, user: "Priya P.", comment: "The greenest place I have ever seen. So peaceful.", rating: 5 },
+            { id: 2, user: "Rahul T.", comment: "Waking up to the view of tea gardens was surreal.", rating: 5 },
         ],
         averageRating: 4.9,
     },
     {
         id: 4,
-        name: "Switzerland",
-        image: "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?q=80&w=2070&auto=format&fit=crop",
-        brief: "Famous for its mountains, clocks, chocolate, cheese, and political neutrality.",
-        description: "Switzerland is a mountainous Central European country, home to numerous lakes, villages and the high peaks of the Alps. Its cities contain medieval quarters, with landmarks like capital Bern's Zytglogge clock tower.",
+        name: "Bora Bora",
+        // Iconic aerial of crystal lagoon with lush green island & overwater bungalows
+        image: "/bora bora.jpg",
+        category: "Tropical Luxury",
+        brief: "The ultimate tropical luxury with iconic overwater bungalows.",
+        description: "Bora Bora is a small South Pacific island northwest of Tahiti in French Polynesia. Surrounded by sand-fringed motus and a turquoise lagoon protected by a coral reef, it's known for its scuba diving and luxury resorts.",
         reviews: [
-            { id: 1, user: "Heidi S.", comment: "The Alps are breathtaking. Hiking here is world-class.", rating: 5 },
-            { id: 2, user: "Tom B.", comment: "Expensive, but the trains are always on time.", rating: 4 },
-            { id: 3, user: "Anna W.", comment: "Chocolate and cheese fondue - what else do you need?", rating: 5 },
+            { id: 1, user: "Emma W.", comment: "Expensive but the water clarity is unmatched.", rating: 5 },
+            { id: 2, user: "Lucas F.", comment: "Swimming with sharks and rays was a lifetime experience.", rating: 4.9 },
+        ],
+        averageRating: 4.9,
+    },
+    {
+        id: 5,
+        name: "Maldives",
+        // Dreamy overwater villas in electric-blue Maldivian lagoon, vivid tropical sky
+        image: "/maldives.jpg",
+        category: "Ocean Escapes",
+        brief: "A tropical nation of coral islands and crystal-clear oceans.",
+        description: "The Maldives is an archipelagic state in South Asia situated in the Indian Ocean. It's known for its beaches, blue lagoons, and extensive reefs, making it a premier destination for snorkeling, diving, and sheer relaxation.",
+        reviews: [
+            { id: 1, user: "Sophia L.", comment: "Paradise found. Our overwater villa was perfect in every way.", rating: 5 },
+            { id: 2, user: "Oliver J.", comment: "The coral reefs are teeming with life.", rating: 4.8 },
+        ],
+        averageRating: 4.9,
+    },
+    {
+        id: 6,
+        name: "Zermatt, Switzerland",
+        // Perfect Matterhorn pyramid against a deep blue sky — impossibly photogenic
+        image: "/Zermat(switzerland(.jpg",
+        category: "Alpine Retreat",
+        brief: "Majestic snow-capped peaks dominated by the iconic Matterhorn.",
+        description: "Zermatt, in southern Switzerland's Valais canton, is a mountain resort renowned for skiing, climbing and hiking. The town, at an elevation of around 1,600m, lies below the iconic, pyramid-shaped Matterhorn peak.",
+        reviews: [
+            { id: 1, user: "Hans M.", comment: "The view of the Matterhorn from the village is unbeatable.", rating: 5 },
+            { id: 2, user: "Claire B.", comment: "Incredible skiing but definitely bring a high budget.", rating: 4.7 },
         ],
         averageRating: 4.8,
     },
+    {
+        id: 7,
+        name: "Amalfi Coast, Italy",
+        // Positano's cascading pastel-colored homes plunging into the deep Tyrrhenian blue
+        image: "/Amalfi Coast (Italy).jpg",
+        category: "Mediterranean",
+        brief: "Vivid coastal luxury perched on steep cliffs.",
+        description: "The Amalfi Coast is a 50-kilometer stretch of coastline along the southern edge of Italy's Sorrentine Peninsula. It's a popular holiday destination, with sheer cliffs and a rugged shoreline dotted with small beaches and pastel-colored fishing villages.",
+        reviews: [
+            { id: 1, user: "Giulia C.", comment: "Positano is breathtakingly beautiful. The food is divine.", rating: 5 },
+            { id: 2, user: "James P.", comment: "Driving the coast is scary but the views are worth it.", rating: 4.8 },
+        ],
+        averageRating: 4.9,
+    },
+    {
+        id: 8,
+        name: "Kyoto, Japan",
+        // Arashiyama bamboo grove path — ethereal green light filtering through towering stalks
+        image: "/Kyoto (Japan).jpg",
+        category: "Cultural Zen",
+        brief: "A city of timeless temples, bamboo forests, and sakura.",
+        description: "Kyoto, once the capital of Japan, is a city on the island of Honshu. It's famous for its numerous classical Buddhist temples, as well as gardens, imperial palaces, Shinto shrines and traditional wooden houses.",
+        reviews: [
+            { id: 1, user: "Kenichi T.", comment: "The Arashiyama bamboo grove feels like another world.", rating: 5 },
+            { id: 2, user: "Maria R.", comment: "Cherry blossom season here is an ethereal experience.", rating: 5 },
+        ],
+        averageRating: 5.0,
+    }
 ];
 
 export const destinationStripData = [
-    { id: 1, title: "Northern Lights", desc: "Dance of colors in Iceland", image: "https://images.unsplash.com/photo-1579033461380-adb47c3eb938?q=80&w=1964&auto=format&fit=crop" },
-    { id: 2, title: "Bali Rice Terraces", desc: "Green waves at sunrise", image: "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?q=80&w=2070&auto=format&fit=crop" },
-    { id: 3, title: "Santorini Sunsets", desc: "White buildings, blue sea", image: "https://images.unsplash.com/photo-1613395877344-13d4c285d285?q=80&w=2069&auto=format&fit=crop" },
-    { id: 4, title: "Kyoto Cherry Blossoms", desc: "Pink petals in spring", image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=2070&auto=format&fit=crop" },
+    {
+        id: 1,
+        title: "Kashmir Snow",
+        desc: "Gulmarg white wonderland",
+        // Same hero Kashmir image — shikaras on Dal Lake at golden hour
+        image: "/Kashmir.jpg"
+    },
+    {
+        id: 2,
+        title: "Udaipur Palaces",
+        desc: "Royalty on the lake",
+        // Lake Palace glowing at dusk
+        image: "/udaipur.jpg"
+    },
+    {
+        id: 3,
+        title: "Munnar Mist",
+        desc: "Emerald tea hills",
+        // Misty tea estates rolling into the horizon
+        image: "/munnar.jpg"
+    },
+    {
+        id: 4,
+        title: "Bora Bora",
+        desc: "Tropical lagoon paradise",
+        // Aerial crystal-blue lagoon with overwater bungalows
+        image: "/bora bora.jpg"
+    },
 ];

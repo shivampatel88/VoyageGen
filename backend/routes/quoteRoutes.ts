@@ -12,6 +12,10 @@ import {
     getUserQuotes,
     generateItinerary,
     streamQuoteViews,
+    getQuotesForComparisonByToken,
+    getQuotesForComparison,
+    generateCompareToken,
+    acceptQuote,
     updateQuoteViewDuration,
 } from '../controllers/quoteController';
 import { protect, authorize } from '../middleware/authMiddleware';
@@ -22,6 +26,13 @@ const router = express.Router();
 router.get('/public/:token', getPublicQuote);
 router.post('/public/:token/status', updatePublicQuoteStatus);
 router.post('/public/:token/view-duration', updateQuoteViewDuration);
+
+// Multi-quote comparison routes (public, secured by compareToken)
+// IMPORTANT: these must stay before /:id to avoid 'compare' being treated as a quote ID
+router.get('/compare/by-token', getQuotesForComparisonByToken);
+router.get('/compare/:requirementId', getQuotesForComparison);
+router.post('/compare/generate-token/:requirementId', protect, authorize('AGENT', 'ADMIN'), generateCompareToken);
+router.post('/:quoteId/accept', acceptQuote);
 
 // User routes
 router.get('/user', protect, authorize('USER'), getUserQuotes);
