@@ -1,112 +1,262 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import * as THREE from 'three';
-// @ts-ignore
-import CLOUDS from 'vanta/dist/vanta.clouds.min';
+import { gsap } from 'gsap';
 import { Link } from 'react-router-dom';
+import { FaPlay, FaChevronDown } from 'react-icons/fa';
 
-gsap.registerPlugin(ScrollTrigger);
-
-interface HeroProps {
-    onOpenForm?: () => void;
-}
-
-const Hero: React.FC<HeroProps> = () => {
-    const heroRef = useRef<HTMLDivElement>(null);
-    const textRef = useRef<HTMLDivElement>(null);
-    const vantaRef = useRef<HTMLDivElement>(null);
-    const [vantaEffect, setVantaEffect] = useState<any>(null);
+const Hero: React.FC = () => {
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const textRef = useRef<HTMLHeadingElement>(null);
+    const subTextRef = useRef<HTMLDivElement>(null);
+    const ctaRef = useRef<HTMLDivElement>(null);
+    
+    const [currentDestination, setCurrentDestination] = useState(0);
+    const destinations = ['Maldives', 'Switzerland', 'Udaipur', 'Bora Bora'];
 
     useEffect(() => {
-        if (!vantaEffect && vantaRef.current) {
-            setVantaEffect(
-                CLOUDS({
-                    el: vantaRef.current,
-                    THREE: THREE,
-                    mouseControls: true,
-                    touchControls: true,
-                    gyroControls: false,
-                    minHeight: 200.00,
-                    minWidth: 200.00,
-                    skyColor: 0x68b8d7,
-                    cloudColor: 0xffffff,
-                    cloudShadowColor: 0x183550,
-                    sunColor: 0xff9919,
-                    sunGlareColor: 0xff6633,
-                    sunlightColor: 0xff9933,
-                    speed: 1.0
-                })
-            );
+        // --- Typewriter Effect ---
+        const interval = setInterval(() => {
+            setCurrentDestination((prev) => (prev + 1) % destinations.length);
+        }, 3000);
+        return () => clearInterval(interval);
+    }, [destinations.length]);
+
+    useEffect(() => {
+        if (!canvasRef.current) return;
+
+        // --- Custom Three.js Particle Scene ---
+        const scene = new THREE.Scene();
+        // The background is handled by CSS aurora-bg, so we make canvas transparent
+        
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ 
+            canvas: canvasRef.current, 
+            alpha: true,
+            antialias: true,
+            powerPreference: "high-performance" 
+        });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // Create volumetric floating dust motes
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 1500; // Dense particle field
+        const posArray = new Float32Array(particlesCount * 3);
+        const scaleArray = new Float32Array(particlesCount);
+        
+        for(let i = 0; i < particlesCount * 3; i++) {
+            // Spread across a wide volume
+            posArray[i] = (Math.random() - 0.5) * 15;
+            if (i % 3 === 0) scaleArray[i/3] = Math.random();
         }
-        return () => {
-            if (vantaEffect) vantaEffect.destroy();
+        
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        particlesGeometry.setAttribute('aScale', new THREE.BufferAttribute(scaleArray, 1));
+
+        // Custom shader material for glowing golden/emerald particles
+        const particlesMaterial = new THREE.ShaderMaterial({
+            uniforms: {
+                uTime: { value: 0 },
+                uColor1: { value: new THREE.Color('#10b981') }, // Emerald
+                uColor2: { value: new THREE.Color('#d4af37') }  // Gold
+            },
+            vertexShader: `
+                uniform float uTime;
+                attribute float aScale;
+                varying vec3 vPosition;
+                void main() {
+                    vPosition = position;
+                    vec4 modelPosition = modelMatrix * vec4(position, 1.0);
+                    // Gentle wave motion
+                    modelPosition.y += sin(uTime * 0.5 + modelPosition.x * 2.0) * 0.1 * aScale;
+                    modelPosition.x += cos(uTime * 0.3 + modelPosition.z * 2.0) * 0.1 * aScale;
+                    vec4 viewPosition = viewMatrix * modelPosition;
+                    vec4 projectedPosition = projectionMatrix * viewPosition;
+                    gl_Position = projectedPosition;
+                    // Size attenuation based on depth
+                    gl_PointSize = (15.0 * aScale) * (1.0 / -viewPosition.z);
+                }
+            `,
+            fragmentShader: `
+                uniform vec3 uColor1;
+                uniform vec3 uColor2;
+                varying vec3 vPosition;
+                void main() {
+                    // Soft circular particle
+                    float distanceToCenter = distance(gl_PointCoord, vec2(0.5));
+                    float alpha = 0.05 / distanceToCenter - 0.1;
+                    // Mix colors based on position
+                    vec3 finalColor = mix(uColor1, uColor2, sin(vPosition.x * 2.0) * 0.5 + 0.5);
+                    gl_FragColor = vec4(finalColor, alpha * 0.8);
+                }
+            `,
+            transparent: true,
+            depthWrite: false,
+            blending: THREE.AdditiveBlending
+        });
+
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+
+        camera.position.z = 3;
+
+        // Mouse Parallax Interaction
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetX = 0;
+        let targetY = 0;
+        const windowHalfX = window.innerWidth / 2;
+        const windowHalfY = window.innerHeight / 2;
+
+        const onDocumentMouseMove = (event: MouseEvent) => {
+            mouseX = (event.clientX - windowHalfX) * 0.001;
+            mouseY = (event.clientY - windowHalfY) * 0.001;
         };
-    }, [vantaEffect]);
+        window.addEventListener('mousemove', onDocumentMouseMove);
 
-    useEffect(() => {
-        const tl = gsap.timeline();
+        const clock = new THREE.Clock();
 
-        // Split text animation
-        if (textRef.current) {
-            const letters = textRef.current.querySelectorAll('.char');
-            tl.fromTo(letters,
-                { y: 100, opacity: 0, rotateX: -45 },
-                {
-                    y: 0,
-                    opacity: 1,
-                    rotateX: 0,
-                    stagger: 0.03,
-                    duration: 1.2,
-                    ease: "power3.out"
-                },
-                0.5
-            );
-        }
+        const animate = () => {
+            requestAnimationFrame(animate);
+            const elapsedTime = clock.getElapsedTime();
+            
+            // Smoothly interpolate camera position toward mouse
+            targetX = mouseX * 0.5;
+            targetY = mouseY * 0.5;
+            camera.position.x += (targetX - camera.position.x) * 0.05;
+            camera.position.y += (-targetY - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
 
+            // Update shader uniform
+            particlesMaterial.uniforms.uTime.value = elapsedTime;
+
+            // Very slow global rotation
+            particlesMesh.rotation.y = elapsedTime * 0.05;
+
+            renderer.render(scene, camera);
+        };
+
+        animate();
+
+        // Handle Resize
+        const handleResize = () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        };
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('mousemove', onDocumentMouseMove);
+            // Cleanup Three.js
+            particlesGeometry.dispose();
+            particlesMaterial.dispose();
+            renderer.dispose();
+        };
     }, []);
 
-    const title = "Where smart planning meets unforgettable journeys.";
-    const words = title.split(" ");
+    useEffect(() => {
+        // --- GSAP Entrance Animations ---
+        const tl = gsap.timeline();
+
+        // Split text animation effect manually (without SplitText plugin)
+        if (textRef.current && subTextRef.current && ctaRef.current) {
+            tl.fromTo(textRef.current,
+                { y: 50, opacity: 0, rotateX: -30 },
+                { y: 0, opacity: 1, rotateX: 0, duration: 1.5, ease: "power4.out" }
+            )
+            .fromTo(subTextRef.current,
+                { y: 30, opacity: 0 },
+                { y: 0, opacity: 1, duration: 1, ease: "power3.out" },
+                "-=1"
+            )
+            .fromTo(ctaRef.current.children,
+                { y: 20, opacity: 0, scale: 0.9 },
+                { y: 0, opacity: 1, scale: 1, duration: 0.8, stagger: 0.2, ease: "back.out(1.5)" },
+                "-=0.5"
+            );
+        }
+    }, []);
 
     return (
-        <section ref={heroRef} className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-black">
-            <div ref={vantaRef} className="absolute inset-0 z-0" />
-            <div className="absolute inset-0 z-10 bg-black/10 pointer-events-none" />
-            <div className="relative z-20 container mx-auto px-6 text-center flex flex-col items-center justify-center h-full pt-20">
-                <div className="mb-6">
-                    <span className="inline-block py-1 px-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-medium tracking-widest uppercase text-emerald-800 mb-6 animate-[fadeIn_1s_ease-out_1s_forwards] opacity-0 shadow-sm">
-                        Redefining Luxury Travel
+        <section className="relative min-h-[100vh] flex items-center justify-center overflow-hidden aurora-bg perspective-container">
+            {/* The ThreeJS Canvas Background */}
+            <canvas ref={canvasRef} className="absolute inset-0 z-0 pointer-events-none" />
+
+            {/* Glowing vignette to create depth (Cockpit window edge sensation) */}
+            <div className="absolute inset-0 z-0 pointer-events-none shadow-[inset_0_0_150px_rgba(0,0,0,0.9)]" />
+            
+            {/* Main Content */}
+            <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center pt-20">
+                
+                {/* Pre-heading Label */}
+                <div className="mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 backdrop-blur-md">
+                    <span className="flex h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span className="text-xs sm:text-sm font-medium text-emerald-300 tracking-wider uppercase">
+                        AI-Powered Semantic Quote Engine
                     </span>
                 </div>
 
-                <div ref={textRef} className="overflow-hidden pb-3 mb-5 max-w-5xl flex flex-wrap justify-center gap-x-3 md:gap-x-6 px-4">
-                    {words.map((word, wordIndex) => (
-                        <span key={wordIndex} className="inline-block whitespace-nowrap">
-                            {word.split('').map((char, charIndex) => (
-                                <span key={charIndex} className="char inline-block text-white drop-shadow-lg font-serif text-4xl md:text-6xl lg:text-7xl font-medium tracking-tight py-1">{char}</span>
-                            ))}
-                        </span>
-                    ))}
+                {/* Staggered 3D Heading */}
+                <h1 ref={textRef} className="transform-3d text-5xl sm:text-7xl lg:text-8xl font-black text-white leading-tight tracking-tight drop-shadow-2xl">
+                    Design the Ultimate <br className="hidden md:block"/>
+                    Journey to <span className="shimmer-text">Tomorrow</span>
+                </h1>
+
+                {/* Subtext and Typewriter */}
+                <div ref={subTextRef} className="mt-8 text-lg sm:text-xl md:text-2xl text-white/70 max-w-3xl font-light leading-relaxed">
+                    Instantly match with premium partners and generate AI itineraries for{' '}
+                    <span className="inline-block min-w-[140px] text-emerald-400 font-semibold transition-all duration-500">
+                        {destinations[currentDestination]}
+                    </span>
+                    <br className="hidden md:block"/> in seconds. Not hours.
                 </div>
 
-                <p className="text-lg md:text-xl text-white max-w-xl mx-auto mb-12 font-medium opacity-0 animate-[fadeIn_1s_ease-out_1.5s_forwards] leading-relaxed drop-shadow-md">
-                    Curated journeys for the modern explorer. <br className="hidden md:block" />
-                    Where AI precision meets human wanderlust.
-                </p>
+                {/* CTAs */}
+                <div ref={ctaRef} className="mt-12 flex flex-col sm:flex-row gap-6 items-center">
+                    <Link to="/plan-journey">
+                        <button className="group relative px-8 py-4 bg-white text-black rounded-full font-bold text-lg hover:scale-105 transition-all duration-300 shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:shadow-[0_0_40px_rgba(255,255,255,0.4)] overflow-hidden">
+                            <span className="relative z-10">Start Your Journey</span>
+                            <div className="absolute inset-0 bg-gradient-to-r from-emerald-100 to-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </button>
+                    </Link>
+                    
+                    <a href="#how-it-works" className="group flex items-center gap-3 px-8 py-4 text-white font-medium hover:text-emerald-400 transition-colors">
+                        <div className="flex items-center justify-center w-12 h-12 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm group-hover:border-emerald-400/50 group-hover:bg-emerald-400/10 transition-all">
+                            <FaPlay className="text-sm ml-1" />
+                        </div>
+                        Watch How It Works
+                    </a>
+                </div>
+            </div>
 
-                <Link to="/signup">
-                    <button className="group relative px-10 py-4 bg-white text-black rounded-full font-serif font-medium text-lg overflow-hidden transition-all hover:scale-105 opacity-0 animate-[fadeIn_1s_ease-out_1.8s_forwards] shadow-xl hover:shadow-2xl">
-                        <span className="relative z-10 group-hover:text-white transition-colors duration-500">Start Your Journey</span>
-                        <div className="absolute inset-0 bg-emerald-900 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left ease-out" />
-                    </button>
-                </Link>
+            {/* Orbiting Glass Cards (3D floating effect around hero) */}
+            <div className="absolute top-[20%] left-[10%] hidden lg:block animate-[float_8s_ease-in-out_infinite]">
+                <div className="glass-panel p-3 rounded-2xl flex items-center gap-4 transform rotate-[-5deg] border-white/20">
+                    <img src="https://images.unsplash.com/photo-1626714486895-6541f53e6b72?q=80&w=150&auto=format&fit=crop" alt="Kashmir" className="w-12 h-12 rounded-xl object-cover" />
+                    <div>
+                        <div className="text-sm font-bold text-white">Kashmir</div>
+                        <div className="text-xs text-emerald-400">98% Match</div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="absolute bottom-[25%] right-[10%] hidden lg:block animate-[float_6s_ease-in-out_infinite_reverse]">
+                <div className="glass-panel p-3 rounded-2xl flex items-center gap-4 transform rotate-[5deg] border-white/20">
+                    <img src="https://images.unsplash.com/photo-1596005554384-d293674c91d7?q=80&w=150&auto=format&fit=crop" alt="Bora Bora" className="w-12 h-12 rounded-xl object-cover" />
+                    <div>
+                        <div className="text-sm font-bold text-white">Bora Bora</div>
+                        <div className="text-xs text-emerald-400">Instant Quote</div>
+                    </div>
+                </div>
             </div>
 
             {/* Scroll Indicator */}
-            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 opacity-0 animate-[fadeIn_1s_ease-out_2.5s_forwards]">
-                <span className="text-[10px] uppercase tracking-[0.2em] text-white/70 font-bold">Explore</span>
-                <div className="w-[1px] h-12 bg-gradient-to-b from-white/0 via-white to-white/0" />
+            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10 opacity-70 animate-bounce">
+                <span className="text-[10px] tracking-[0.3em] uppercase text-emerald-400 mb-1">Scroll to fly</span>
+                <FaChevronDown className="text-white text-lg" />
             </div>
         </section>
     );
