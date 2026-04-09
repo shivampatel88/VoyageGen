@@ -10,7 +10,7 @@ const roleContent: Record<LoginRole, {
     title: string;
     subtitle: string;
     signupLabel: string;
-    signupRole?: LoginRole;
+    signupRole: LoginRole;
 }> = {
     USER: {
         title: 'Traveler Login',
@@ -27,7 +27,8 @@ const roleContent: Record<LoginRole, {
     AGENT: {
         title: 'Agent Login',
         subtitle: 'Access requirements, match partners, and manage quotes end to end.',
-        signupLabel: 'Back to traveler login',
+        signupLabel: 'Create agent account',
+        signupRole: 'AGENT',
     },
 };
 
@@ -177,24 +178,13 @@ const Login: React.FC = () => {
                     </form>
 
                     <div className="mt-8 text-center text-gray-500">
-                        {content.signupRole ? (
-                            <>
-                                Need access?{' '}
-                                <Link
-                                    to={content.signupRole === 'USER' ? '/signup' : `/signup?role=${content.signupRole}`}
-                                    className="text-emerald-400 font-medium hover:text-emerald-300 transition-colors"
-                                >
-                                    {content.signupLabel}
-                                </Link>
-                            </>
-                        ) : (
-                            <>
-                                Looking for the traveler portal?{' '}
-                                <Link to="/login" className="text-emerald-400 font-medium hover:text-emerald-300 transition-colors">
-                                    {content.signupLabel}
-                                </Link>
-                            </>
-                        )}
+                        Need access?{' '}
+                        <Link
+                            to={content.signupRole === 'USER' ? '/signup' : `/signup?role=${content.signupRole}`}
+                            className="text-emerald-400 font-medium hover:text-emerald-300 transition-colors"
+                        >
+                            {content.signupLabel}
+                        </Link>
                     </div>
                 </motion.div>
             </div>
