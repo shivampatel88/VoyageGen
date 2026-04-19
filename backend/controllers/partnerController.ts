@@ -47,8 +47,8 @@ export const updateProfile = async (req: Request, res: Response) => {
                 address?.city || '',
                 (specializations || []).join(' '),
                 (amenities || []).join(' '),
-                (activities || []).map(a => a.name + ' ' + a.description).join(' '),
-                (sightSeeings || []).map(s => s.name + ' ' + s.description).join(' ')
+                (activities || []).map((a: { name: string; description: string }) => a.name + ' ' + a.description).join(' '),
+                (sightSeeings || []).map((s: { name: string; description: string }) => s.name + ' ' + s.description).join(' ')
             ].filter(Boolean).join(' ');
             
             description_embedding = await generateEmbedding(embeddingText);
@@ -300,7 +300,7 @@ export const getPartnerDashboard = async (req: Request, res: Response) => {
             }
         ];
 
-        const [result] = await Quote.aggregate(statsPipeline);
+        const [result] = await Quote.aggregate(statsPipeline as any[]);
 
         // Format status breakdown
         const statusMap: Record<string, number> = {

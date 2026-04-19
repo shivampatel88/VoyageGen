@@ -279,7 +279,7 @@ export const getUserQuotes = async (req: Request, res: Response) => {
             // If requirementId is provided, get quotes for that specific requirement
             // Verify the requirement belongs to the user
             const requirement = await Requirement.findOne({ 
-                _id: requirementId,
+                _id: requirementId as string,
                 ...userRequirementFilter
             });
             
@@ -290,7 +290,7 @@ export const getUserQuotes = async (req: Request, res: Response) => {
             
             // Get quotes for this specific requirement
             const quotes = await Quote.find({ 
-                requirementId: requirementId,
+                requirementId: requirementId as string,
                 status: { $in: ['SENT_TO_USER', 'ACCEPTED', 'DECLINED'] }
             })
             .populate('partnerId', 'name companyName')
@@ -677,7 +677,7 @@ export const getQuotesForComparisonByToken = async (req: Request, res: Response)
         }
 
         // Find requirement by compare token
-        const requirement = await Requirement.findOne({ compareToken: token });
+        const requirement = await Requirement.findOne({ compareToken: token as string });
 
         if (!requirement) {
             return res.status(404).json({ error: 'Invalid comparison token' });
